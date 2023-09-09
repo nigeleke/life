@@ -1,0 +1,898 @@
+<?xml version="1.0"?>
+<!DOCTYPE coverage SYSTEM "https://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage 
+line-rate="0.84" lines-valid="285" lines-covered="238" branches-valid="5" branches-covered="3" branch-rate="0.60" complexity="0" version="1.0" timestamp="1694224461489">
+    <sources>
+        <source>--source</source>
+        <source>/home/runner/work/life/life/src/main/scala</source>
+    </sources>
+    <packages>
+        <package name="app" line-rate="0.97" branch-rate="1.00" complexity="0">
+            <classes>
+                <class name="app.Life$" filename="app/Life.scala" line-rate="0.97" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="app/Life$/main" signature="()V" line-rate="0.88" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="66" hits="1" branch="true"/>
+                                <line number="64" hits="1" branch="false"/>
+                                <line number="66" hits="1" branch="false"/>
+                                <line number="64" hits="1" branch="false"/>
+                                <line number="65" hits="1" branch="true"/>
+                                <line number="65" hits="1" branch="false"/>
+                                <line number="66" hits="0" branch="false"/>
+                                <line number="63" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="app/Life$/runRandom" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="56" hits="1" branch="false"/>
+                                <line number="55" hits="1" branch="false"/>
+                                <line number="54" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="app/Life$/runWithFile" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="61" hits="1" branch="false"/>
+                                <line number="60" hits="1" branch="false"/>
+                                <line number="61" hits="1" branch="false"/>
+                                <line number="59" hits="1" branch="false"/>
+                                <line number="60" hits="1" branch="false"/>
+                                <line number="58" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="app/Life$/&lt;init&gt;" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="42" hits="1" branch="false"/>
+                                <line number="43" hits="1" branch="false"/>
+                                <line number="43" hits="1" branch="false"/>
+                                <line number="41" hits="1" branch="false"/>
+                                <line number="42" hits="1" branch="false"/>
+                                <line number="41" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="app/Life$/$anonfun" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="49" hits="1" branch="false"/>
+                                <line number="51" hits="1" branch="false"/>
+                                <line number="50" hits="1" branch="false"/>
+                                <line number="66" hits="1" branch="false"/>
+                                <line number="50" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="app/Life$/iterateGenerations" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="46" hits="1" branch="false"/>
+                                <line number="46" hits="1" branch="false"/>
+                                <line number="48" hits="1" branch="false"/>
+                                <line number="47" hits="1" branch="false"/>
+                                <line number="45" hits="1" branch="false"/>
+                                <line number="46" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="61" hits="1" branch="false"/>
+                        <line number="66" hits="1" branch="true"/>
+                        <line number="46" hits="1" branch="false"/>
+                        <line number="56" hits="1" branch="false"/>
+                        <line number="64" hits="1" branch="false"/>
+                        <line number="49" hits="1" branch="false"/>
+                        <line number="66" hits="1" branch="false"/>
+                        <line number="60" hits="1" branch="false"/>
+                        <line number="42" hits="1" branch="false"/>
+                        <line number="43" hits="1" branch="false"/>
+                        <line number="51" hits="1" branch="false"/>
+                        <line number="43" hits="1" branch="false"/>
+                        <line number="50" hits="1" branch="false"/>
+                        <line number="61" hits="1" branch="false"/>
+                        <line number="66" hits="1" branch="false"/>
+                        <line number="55" hits="1" branch="false"/>
+                        <line number="46" hits="1" branch="false"/>
+                        <line number="64" hits="1" branch="false"/>
+                        <line number="48" hits="1" branch="false"/>
+                        <line number="41" hits="1" branch="false"/>
+                        <line number="59" hits="1" branch="false"/>
+                        <line number="65" hits="1" branch="true"/>
+                        <line number="65" hits="1" branch="false"/>
+                        <line number="54" hits="1" branch="false"/>
+                        <line number="47" hits="1" branch="false"/>
+                        <line number="60" hits="1" branch="false"/>
+                        <line number="42" hits="1" branch="false"/>
+                        <line number="50" hits="1" branch="false"/>
+                        <line number="66" hits="0" branch="false"/>
+                        <line number="45" hits="1" branch="false"/>
+                        <line number="58" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="46" hits="1" branch="false"/>
+                        <line number="41" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="app.Ansi$" filename="app/Life.scala" line-rate="1.00" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="app/Ansi$/&lt;init&gt;" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="71" hits="1" branch="false"/>
+                                <line number="70" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="71" hits="1" branch="false"/>
+                        <line number="70" hits="1" branch="false"/>
+                    </lines>
+                </class>
+            </classes>
+        </package>
+        <package name="life" line-rate="0.82" branch-rate="0.33" complexity="0">
+            <classes>
+                <class name="life.Bounds$" filename="life/Bounds.scala" line-rate="1.00" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="life/Bounds$/from" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="63" hits="1" branch="false"/>
+                                <line number="64" hits="1" branch="false"/>
+                                <line number="63" hits="1" branch="false"/>
+                                <line number="60" hits="1" branch="false"/>
+                                <line number="63" hits="1" branch="false"/>
+                                <line number="64" hits="1" branch="false"/>
+                                <line number="64" hits="1" branch="false"/>
+                                <line number="63" hits="1" branch="false"/>
+                                <line number="64" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Bounds$/intFor" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="61" hits="1" branch="false"/>
+                                <line number="61" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="64" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="60" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="64" hits="1" branch="false"/>
+                        <line number="61" hits="1" branch="false"/>
+                        <line number="64" hits="1" branch="false"/>
+                        <line number="61" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="64" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="life.Cells$" filename="life/Cells.scala" line-rate="0.67" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="life/Cells$/fromFilenameEx" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="75" hits="1" branch="false"/>
+                                <line number="76" hits="1" branch="false"/>
+                                <line number="75" hits="1" branch="false"/>
+                                <line number="76" hits="1" branch="false"/>
+                                <line number="74" hits="1" branch="false"/>
+                                <line number="76" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$/fromFilename" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="89" hits="1" branch="false"/>
+                                <line number="87" hits="1" branch="false"/>
+                                <line number="87" hits="1" branch="false"/>
+                                <line number="89" hits="1" branch="false"/>
+                                <line number="88" hits="1" branch="false"/>
+                                <line number="86" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$/fromText" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="70" hits="1" branch="false"/>
+                                <line number="72" hits="1" branch="false"/>
+                                <line number="70" hits="1" branch="false"/>
+                                <line number="72" hits="1" branch="false"/>
+                                <line number="71" hits="1" branch="false"/>
+                                <line number="69" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$/$anonfun" signature="()V" line-rate="0.33" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="56" hits="0" branch="false"/>
+                                <line number="57" hits="0" branch="false"/>
+                                <line number="57" hits="0" branch="false"/>
+                                <line number="48" hits="0" branch="false"/>
+                                <line number="57" hits="0" branch="false"/>
+                                <line number="57" hits="1" branch="false"/>
+                                <line number="57" hits="0" branch="false"/>
+                                <line number="57" hits="0" branch="false"/>
+                                <line number="51" hits="1" branch="false"/>
+                                <line number="57" hits="0" branch="false"/>
+                                <line number="55" hits="1" branch="false"/>
+                                <line number="49" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$/fromTextEx" signature="()V" line-rate="0.58" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="59" hits="1" branch="false"/>
+                                <line number="53" hits="1" branch="false"/>
+                                <line number="45" hits="1" branch="false"/>
+                                <line number="51" hits="1" branch="false"/>
+                                <line number="45" hits="0" branch="false"/>
+                                <line number="55" hits="0" branch="false"/>
+                                <line number="52" hits="1" branch="false"/>
+                                <line number="53" hits="1" branch="false"/>
+                                <line number="55" hits="0" branch="false"/>
+                                <line number="46" hits="0" branch="false"/>
+                                <line number="53" hits="1" branch="false"/>
+                                <line number="50" hits="1" branch="false"/>
+                                <line number="45" hits="1" branch="false"/>
+                                <line number="53" hits="1" branch="false"/>
+                                <line number="55" hits="0" branch="false"/>
+                                <line number="52" hits="1" branch="false"/>
+                                <line number="48" hits="0" branch="false"/>
+                                <line number="45" hits="0" branch="false"/>
+                                <line number="54" hits="1" branch="false"/>
+                                <line number="47" hits="0" branch="false"/>
+                                <line number="53" hits="1" branch="false"/>
+                                <line number="55" hits="0" branch="false"/>
+                                <line number="44" hits="1" branch="false"/>
+                                <line number="53" hits="0" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="59" hits="1" branch="false"/>
+                        <line number="75" hits="1" branch="false"/>
+                        <line number="56" hits="0" branch="false"/>
+                        <line number="89" hits="1" branch="false"/>
+                        <line number="70" hits="1" branch="false"/>
+                        <line number="76" hits="1" branch="false"/>
+                        <line number="53" hits="1" branch="false"/>
+                        <line number="57" hits="0" branch="false"/>
+                        <line number="45" hits="1" branch="false"/>
+                        <line number="51" hits="1" branch="false"/>
+                        <line number="45" hits="0" branch="false"/>
+                        <line number="57" hits="0" branch="false"/>
+                        <line number="55" hits="0" branch="false"/>
+                        <line number="52" hits="1" branch="false"/>
+                        <line number="72" hits="1" branch="false"/>
+                        <line number="87" hits="1" branch="false"/>
+                        <line number="53" hits="1" branch="false"/>
+                        <line number="48" hits="0" branch="false"/>
+                        <line number="87" hits="1" branch="false"/>
+                        <line number="75" hits="1" branch="false"/>
+                        <line number="55" hits="0" branch="false"/>
+                        <line number="89" hits="1" branch="false"/>
+                        <line number="57" hits="0" branch="false"/>
+                        <line number="46" hits="0" branch="false"/>
+                        <line number="53" hits="1" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="70" hits="1" branch="false"/>
+                        <line number="50" hits="1" branch="false"/>
+                        <line number="45" hits="1" branch="false"/>
+                        <line number="53" hits="1" branch="false"/>
+                        <line number="76" hits="1" branch="false"/>
+                        <line number="72" hits="1" branch="false"/>
+                        <line number="55" hits="0" branch="false"/>
+                        <line number="57" hits="0" branch="false"/>
+                        <line number="52" hits="1" branch="false"/>
+                        <line number="48" hits="0" branch="false"/>
+                        <line number="45" hits="0" branch="false"/>
+                        <line number="57" hits="0" branch="false"/>
+                        <line number="71" hits="1" branch="false"/>
+                        <line number="74" hits="1" branch="false"/>
+                        <line number="54" hits="1" branch="false"/>
+                        <line number="51" hits="1" branch="false"/>
+                        <line number="57" hits="0" branch="false"/>
+                        <line number="47" hits="0" branch="false"/>
+                        <line number="69" hits="1" branch="false"/>
+                        <line number="53" hits="1" branch="false"/>
+                        <line number="55" hits="0" branch="false"/>
+                        <line number="88" hits="1" branch="false"/>
+                        <line number="55" hits="1" branch="false"/>
+                        <line number="44" hits="1" branch="false"/>
+                        <line number="76" hits="1" branch="false"/>
+                        <line number="53" hits="0" branch="false"/>
+                        <line number="86" hits="1" branch="false"/>
+                        <line number="49" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="life.World$" filename="life/World.scala" line-rate="1.00" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="life/World$/withCells" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="52" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="52" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="life.World$package$" filename="life/World.scala" line-rate="0.83" branch-rate="0.00" complexity="0">
+                    <methods>
+                        <method name="life/World$package$/withinBounds" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="57" hits="1" branch="false"/>
+                                <line number="57" hits="1" branch="false"/>
+                                <line number="57" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/cellsInBounds" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="58" hits="1" branch="false"/>
+                                <line number="58" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/withViewport" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="81" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/nextGeneration" signature="()V" line-rate="0.75" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="109" hits="1" branch="false"/>
+                                <line number="114" hits="1" branch="false"/>
+                                <line number="111" hits="1" branch="false"/>
+                                <line number="114" hits="1" branch="false"/>
+                                <line number="112" hits="0" branch="false"/>
+                                <line number="109" hits="0" branch="false"/>
+                                <line number="113" hits="0" branch="false"/>
+                                <line number="113" hits="1" branch="false"/>
+                                <line number="110" hits="1" branch="false"/>
+                                <line number="114" hits="1" branch="false"/>
+                                <line number="112" hits="1" branch="false"/>
+                                <line number="108" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/withCells" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="99" hits="1" branch="false"/>
+                                <line number="97" hits="1" branch="false"/>
+                                <line number="98" hits="1" branch="false"/>
+                                <line number="99" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/rowString" signature="()V" line-rate="0.75" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="121" hits="1" branch="false"/>
+                                <line number="123" hits="0" branch="false"/>
+                                <line number="125" hits="1" branch="false"/>
+                                <line number="122" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/withinRange" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="56" hits="1" branch="false"/>
+                                <line number="56" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/isLive" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="101" hits="1" branch="false"/>
+                                <line number="101" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/$anonfun" signature="()V" line-rate="0.62" branch-rate="0.00" complexity="0">
+                            <lines>
+                                <line number="59" hits="0" branch="false"/>
+                                <line number="112" hits="1" branch="false"/>
+                                <line number="98" hits="1" branch="false"/>
+                                <line number="113" hits="1" branch="false"/>
+                                <line number="109" hits="0" branch="false"/>
+                                <line number="127" hits="1" branch="false"/>
+                                <line number="124" hits="0" branch="true"/>
+                                <line number="111" hits="1" branch="false"/>
+                                <line number="58" hits="1" branch="false"/>
+                                <line number="124" hits="0" branch="true"/>
+                                <line number="103" hits="1" branch="false"/>
+                                <line number="124" hits="0" branch="false"/>
+                                <line number="123" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/withBounds" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="68" hits="1" branch="false"/>
+                                <line number="68" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/neighbourCount" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="103" hits="1" branch="false"/>
+                                <line number="103" hits="1" branch="false"/>
+                                <line number="103" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/withoutViewport" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="87" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/prettified" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="120" hits="1" branch="false"/>
+                                <line number="120" hits="1" branch="false"/>
+                                <line number="126" hits="1" branch="false"/>
+                                <line number="120" hits="1" branch="false"/>
+                                <line number="127" hits="1" branch="false"/>
+                                <line number="119" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/World$package$/unbounded" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="73" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method 
+                        name="life/World$package$/removingOffworlders" signature="()V" line-rate="0.67" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="59" hits="0" branch="false"/>
+                                <line number="59" hits="1" branch="false"/>
+                                <line number="55" hits="1" branch="false"/>
+                            </lines>
+</method>
+                    </methods>
+                    <lines>
+                        <line number="56" hits="1" branch="false"/>
+                        <line number="109" hits="1" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="59" hits="0" branch="false"/>
+                        <line number="112" hits="1" branch="false"/>
+                        <line number="98" hits="1" branch="false"/>
+                        <line number="103" hits="1" branch="false"/>
+                        <line number="56" hits="1" branch="false"/>
+                        <line number="59" hits="0" branch="false"/>
+                        <line number="120" hits="1" branch="false"/>
+                        <line number="121" hits="1" branch="false"/>
+                        <line number="113" hits="1" branch="false"/>
+                        <line number="109" hits="0" branch="false"/>
+                        <line number="127" hits="1" branch="false"/>
+                        <line number="123" hits="0" branch="false"/>
+                        <line number="97" hits="1" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="68" hits="1" branch="false"/>
+                        <line number="124" hits="0" branch="true"/>
+                        <line number="103" hits="1" branch="false"/>
+                        <line number="111" hits="1" branch="false"/>
+                        <line number="58" hits="1" branch="false"/>
+                        <line number="114" hits="1" branch="false"/>
+                        <line number="81" hits="1" branch="false"/>
+                        <line number="124" hits="0" branch="true"/>
+                        <line number="101" hits="1" branch="false"/>
+                        <line number="111" hits="1" branch="false"/>
+                        <line number="114" hits="1" branch="false"/>
+                        <line number="73" hits="1" branch="false"/>
+                        <line number="120" hits="1" branch="false"/>
+                        <line number="125" hits="1" branch="false"/>
+                        <line number="103" hits="1" branch="false"/>
+                        <line number="112" hits="0" branch="false"/>
+                        <line number="59" hits="1" branch="false"/>
+                        <line number="98" hits="1" branch="false"/>
+                        <line number="126" hits="1" branch="false"/>
+                        <line number="109" hits="0" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="113" hits="0" branch="false"/>
+                        <line number="55" hits="1" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="122" hits="1" branch="false"/>
+                        <line number="58" hits="1" branch="false"/>
+                        <line number="113" hits="1" branch="false"/>
+                        <line number="120" hits="1" branch="false"/>
+                        <line number="127" hits="1" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="110" hits="1" branch="false"/>
+                        <line number="101" hits="1" branch="false"/>
+                        <line number="124" hits="0" branch="false"/>
+                        <line number="119" hits="1" branch="false"/>
+                        <line number="114" hits="1" branch="false"/>
+                        <line number="68" hits="1" branch="false"/>
+                        <line number="112" hits="1" branch="false"/>
+                        <line number="108" hits="1" branch="false"/>
+                        <line number="87" hits="1" branch="false"/>
+                        <line number="103" hits="1" branch="false"/>
+                        <line number="58" hits="1" branch="false"/>
+                        <line number="123" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="life.Cells$package$" filename="life/Cells.scala" line-rate="0.90" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="life/Cells$package$/rotate" signature="()V" line-rate="0.71" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="111" hits="1" branch="false"/>
+                                <line number="114" hits="1" branch="false"/>
+                                <line number="121" hits="1" branch="false"/>
+                                <line number="112" hits="0" branch="false"/>
+                                <line number="113" hits="1" branch="false"/>
+                                <line number="105" hits="1" branch="false"/>
+                                <line number="110" hits="1" branch="false"/>
+                                <line number="114" hits="0" branch="false"/>
+                                <line number="112" hits="1" branch="false"/>
+                                <line number="121" hits="0" branch="false"/>
+                                <line number="121" hits="1" branch="false"/>
+                                <line number="111" hits="0" branch="false"/>
+                                <line number="112" hits="1" branch="false"/>
+                                <line number="114" hits="1" branch="false"/>
+                                <line number="122" hits="1" branch="false"/>
+                                <line number="108" hits="1" branch="true"/>
+                                <line number="113" hits="0" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$package$/$anonfun" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="121" hits="1" branch="false"/>
+                                <line number="103" hits="1" branch="false"/>
+                                <line number="121" hits="1" branch="false"/>
+                                <line number="121" hits="1" branch="false"/>
+                                <line number="121" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$package$/rotate270" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="119" hits="1" branch="false"/>
+                                <line number="119" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$package$/rotate0" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="116" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$package$/bounds" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="93" hits="1" branch="false"/>
+                                <line number="92" hits="1" branch="false"/>
+                                <line number="94" hits="1" branch="false"/>
+                                <line number="94" hits="1" branch="false"/>
+                                <line number="93" hits="1" branch="false"/>
+                                <line number="103" hits="1" branch="false"/>
+                                <line number="94" hits="1" branch="false"/>
+                                <line number="94" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$package$/updateBounds" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="99" hits="1" branch="false"/>
+                                <line number="100" hits="1" branch="false"/>
+                                <line number="96" hits="1" branch="false"/>
+                                <line number="99" hits="1" branch="false"/>
+                                <line number="100" hits="1" branch="false"/>
+                                <line number="99" hits="1" branch="false"/>
+                                <line number="98" hits="1" branch="false"/>
+                                <line number="100" hits="1" branch="false"/>
+                                <line number="100" hits="1" branch="false"/>
+                                <line number="99" hits="1" branch="false"/>
+                                <line number="100" hits="1" branch="false"/>
+                                <line number="99" hits="1" branch="false"/>
+                                <line number="99" hits="1" branch="false"/>
+                                <line number="100" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$package$/rotate180" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="118" hits="1" branch="false"/>
+                                <line number="118" hits="1" branch="false"/>
+                                <line number="118" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cells$package$/rotate90" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="117" hits="1" branch="false"/>
+                                <line number="117" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="111" hits="1" branch="false"/>
+                        <line number="114" hits="1" branch="false"/>
+                        <line number="121" hits="1" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="96" hits="1" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="121" hits="1" branch="false"/>
+                        <line number="93" hits="1" branch="false"/>
+                        <line number="112" hits="0" branch="false"/>
+                        <line number="117" hits="1" branch="false"/>
+                        <line number="92" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="94" hits="1" branch="false"/>
+                        <line number="113" hits="1" branch="false"/>
+                        <line number="118" hits="1" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="103" hits="1" branch="false"/>
+                        <line number="121" hits="1" branch="false"/>
+                        <line number="94" hits="1" branch="false"/>
+                        <line number="105" hits="1" branch="false"/>
+                        <line number="98" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="110" hits="1" branch="false"/>
+                        <line number="114" hits="0" branch="false"/>
+                        <line number="119" hits="1" branch="false"/>
+                        <line number="112" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="117" hits="1" branch="false"/>
+                        <line number="121" hits="0" branch="false"/>
+                        <line number="93" hits="1" branch="false"/>
+                        <line number="116" hits="1" branch="false"/>
+                        <line number="121" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="111" hits="0" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="118" hits="1" branch="false"/>
+                        <line number="103" hits="1" branch="false"/>
+                        <line number="121" hits="1" branch="false"/>
+                        <line number="112" hits="1" branch="false"/>
+                        <line number="94" hits="1" branch="false"/>
+                        <line number="99" hits="1" branch="false"/>
+                        <line number="114" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="119" hits="1" branch="false"/>
+                        <line number="122" hits="1" branch="false"/>
+                        <line number="108" hits="1" branch="true"/>
+                        <line number="94" hits="1" branch="false"/>
+                        <line number="118" hits="1" branch="false"/>
+                        <line number="113" hits="0" branch="false"/>
+                        <line number="121" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="life.Generations" filename="life/Generations.scala" line-rate="0.89" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="life/Generations/next" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="63" hits="1" branch="false"/>
+                                <line number="63" hits="1" branch="false"/>
+                                <line number="63" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Generations/$anonfun" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="49" hits="1" branch="false"/>
+                                <line number="57" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Generations/nextWithHistory" signature="()V" line-rate="0.80" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="46" hits="1" branch="false"/>
+                                <line number="46" hits="1" branch="false"/>
+                                <line number="47" hits="0" branch="false"/>
+                                <line number="47" hits="1" branch="false"/>
+                                <line number="45" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Generations/hasNext" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="57" hits="1" branch="false"/>
+                                <line number="56" hits="1" branch="false"/>
+                                <line number="57" hits="1" branch="false"/>
+                                <line number="55" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Generations/&lt;init&gt;" signature="()V" line-rate="0.80" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="43" hits="1" branch="false"/>
+                                <line number="49" hits="0" branch="false"/>
+                                <line number="49" hits="1" branch="false"/>
+                                <line number="43" hits="1" branch="false"/>
+                                <line number="49" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="49" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="43" hits="1" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="46" hits="1" branch="false"/>
+                        <line number="56" hits="1" branch="false"/>
+                        <line number="46" hits="1" branch="false"/>
+                        <line number="47" hits="0" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="49" hits="0" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="49" hits="1" branch="false"/>
+                        <line number="43" hits="1" branch="false"/>
+                        <line number="47" hits="1" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="49" hits="1" branch="false"/>
+                        <line number="55" hits="1" branch="false"/>
+                        <line number="45" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="life.Cell$package$" filename="life/Cell.scala" line-rate="0.55" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="life/Cell$package$/neighbours" signature="()V" line-rate="0.60" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="50" hits="0" branch="false"/>
+                                <line number="53" hits="1" branch="false"/>
+                                <line number="50" hits="0" branch="false"/>
+                                <line number="49" hits="1" branch="false"/>
+                                <line number="48" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cell$package$/$anonfun" signature="()V" line-rate="0.40" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="51" hits="0" branch="false"/>
+                                <line number="53" hits="1" branch="false"/>
+                                <line number="51" hits="0" branch="false"/>
+                                <line number="51" hits="0" branch="false"/>
+                                <line number="51" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Cell$package$/+" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="43" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="50" hits="0" branch="false"/>
+                        <line number="51" hits="0" branch="false"/>
+                        <line number="53" hits="1" branch="false"/>
+                        <line number="43" hits="1" branch="false"/>
+                        <line number="53" hits="1" branch="false"/>
+                        <line number="50" hits="0" branch="false"/>
+                        <line number="51" hits="0" branch="false"/>
+                        <line number="51" hits="0" branch="false"/>
+                        <line number="49" hits="1" branch="false"/>
+                        <line number="48" hits="1" branch="false"/>
+                        <line number="51" hits="1" branch="false"/>
+                    </lines>
+                </class>
+                <class name="life.Patterns$" filename="life/Patterns.scala" line-rate="0.86" branch-rate="1.00" complexity="0">
+                    <methods>
+                        <method name="life/Patterns$/block" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="63" hits="1" branch="false"/>
+                                <line number="63" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/blinker" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="57" hits="1" branch="false"/>
+                                <line number="57" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/toad" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="105" hits="1" branch="false"/>
+                                <line number="105" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/beacon" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="46" hits="1" branch="false"/>
+                                <line number="46" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/gliderGunGosper" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="80" hits="1" branch="false"/>
+                                <line number="80" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/pentaDecathlon" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="90" hits="1" branch="false"/>
+                                <line number="90" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/random" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="124" hits="1" branch="false"/>
+                                <line number="120" hits="1" branch="false"/>
+                                <line number="119" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/$anonfun" signature="()V" line-rate="0.50" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="41" hits="1" branch="false"/>
+                                <line number="122" hits="1" branch="false"/>
+                                <line number="123" hits="0" branch="false"/>
+                                <line number="122" hits="0" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/loaf" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="85" hits="1" branch="false"/>
+                                <line number="85" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/glider" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="74" hits="1" branch="false"/>
+                                <line number="74" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/tub" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="111" hits="1" branch="false"/>
+                                <line number="111" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/fromPattern" signature="()V" line-rate="0.56" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="40" hits="1" branch="false"/>
+                                <line number="40" hits="1" branch="false"/>
+                                <line number="41" hits="0" branch="false"/>
+                                <line number="41" hits="0" branch="false"/>
+                                <line number="41" hits="0" branch="false"/>
+                                <line number="40" hits="1" branch="false"/>
+                                <line number="39" hits="1" branch="false"/>
+                                <line number="41" hits="1" branch="false"/>
+                                <line number="41" hits="0" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/pulsar" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="95" hits="1" branch="false"/>
+                                <line number="95" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/boat" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="69" hits="1" branch="false"/>
+                                <line number="69" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/spaceshipLightweight" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="100" hits="1" branch="false"/>
+                                <line number="100" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                        <method name="life/Patterns$/beehive" signature="()V" line-rate="1.00" branch-rate="1.00" complexity="0">
+                            <lines>
+                                <line number="52" hits="1" branch="false"/>
+                                <line number="52" hits="1" branch="false"/>
+                            </lines>
+                        </method>
+                    </methods>
+                    <lines>
+                        <line number="111" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="90" hits="1" branch="false"/>
+                        <line number="41" hits="1" branch="false"/>
+                        <line number="46" hits="1" branch="false"/>
+                        <line number="40" hits="1" branch="false"/>
+                        <line number="40" hits="1" branch="false"/>
+                        <line number="46" hits="1" branch="false"/>
+                        <line number="95" hits="1" branch="false"/>
+                        <line number="122" hits="1" branch="false"/>
+                        <line number="69" hits="1" branch="false"/>
+                        <line number="124" hits="1" branch="false"/>
+                        <line number="80" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="41" hits="0" branch="false"/>
+                        <line number="52" hits="1" branch="false"/>
+                        <line number="63" hits="1" branch="false"/>
+                        <line number="85" hits="1" branch="false"/>
+                        <line number="111" hits="1" branch="false"/>
+                        <line number="41" hits="0" branch="false"/>
+                        <line number="41" hits="0" branch="false"/>
+                        <line number="85" hits="1" branch="false"/>
+                        <line number="105" hits="1" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="40" hits="1" branch="false"/>
+                        <line number="90" hits="1" branch="false"/>
+                        <line number="120" hits="1" branch="false"/>
+                        <line number="39" hits="1" branch="false"/>
+                        <line number="69" hits="1" branch="false"/>
+                        <line number="100" hits="1" branch="false"/>
+                        <line number="41" hits="1" branch="false"/>
+                        <line number="123" hits="0" branch="false"/>
+                        <line number="52" hits="1" branch="false"/>
+                        <line number="74" hits="1" branch="false"/>
+                        <line number="122" hits="0" branch="false"/>
+                        <line number="74" hits="1" branch="false"/>
+                        <line number="95" hits="1" branch="false"/>
+                        <line number="41" hits="0" branch="false"/>
+                        <line number="105" hits="1" branch="false"/>
+                        <line number="119" hits="1" branch="false"/>
+                        <line number="57" hits="1" branch="false"/>
+                        <line number="80" hits="1" branch="false"/>
+                    </lines>
+                </class>
+            </classes>
+        </package>
+    </packages>
+</coverage>
