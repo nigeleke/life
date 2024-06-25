@@ -1,5 +1,5 @@
 <scoverage 
-statement-count="271" statements-invoked="270" statement-rate="99.63" branch-rate="100.00" version="1.0" timestamp="1719294951006">
+statement-count="271" statements-invoked="269" statement-rate="99.26" branch-rate="93.75" version="1.0" timestamp="1719295579836">
     <packages>
         <package name="app" statement-count="36" statements-invoked="36" statement-rate="100.00">
             <classes>
@@ -157,7 +157,7 @@ statement-count="271" statements-invoked="270" statement-rate="99.63" branch-rat
 </class>
             </classes>
         </package>
-        <package name="life" statement-count="235" statements-invoked="234" statement-rate="99.57">
+        <package name="life" statement-count="235" statements-invoked="233" statement-rate="99.15">
             <classes>
                 <class 
                 name="life.Bounds" filename="life/Bounds.scala" statement-count="11" statements-invoked="11" statement-rate="100.00" branch-rate="100.00">
@@ -459,7 +459,7 @@ statement-count="271" statements-invoked="270" statement-rate="99.63" branch-rat
                     </methods>
 </class>
                 <class 
-                name="life.Cells$package" filename="life/Cells.scala" statement-count="48" statements-invoked="48" statement-rate="100.00" branch-rate="100.00">
+                name="life.Cells$package" filename="life/Cells.scala" statement-count="48" statements-invoked="47" statement-rate="97.92" branch-rate="75.00">
                     <methods>
                         <method 
                         name="life/Cells$package/rotate0" statement-count="1" statements-invoked="1" statement-rate="100.00" branch-rate="100.00">
@@ -526,7 +526,7 @@ statement-count="271" statements-invoked="270" statement-rate="99.63" branch-rat
                             </statements>
 </method>
                         <method 
-                        name="life/Cells$package/rotate" statement-count="13" statements-invoked="13" statement-rate="100.00" branch-rate="100.00">
+                        name="life/Cells$package/rotate" statement-count="13" statements-invoked="12" statement-rate="92.31" branch-rate="50.00">
                             <statements>
                                 <statement 
                                 package="life" class="Cells$package" class-type="Object" full-class-name="life.Cells$package" source="/home/runner/work/life/life/src/main/scala/life/Cells.scala" method="rotate" start="4489" end="4517" line="112" branch="false" invocation-count="1" ignored="false">
@@ -562,7 +562,7 @@ statement-count="271" statements-invoked="270" statement-rate="99.63" branch-rat
                                 package="life" class="Cells$package" class-type="Object" full-class-name="life.Cells$package" source="/home/runner/work/life/life/src/main/scala/life/Cells.scala" method="rotate" start="4678" end="4715" line="115" branch="false" invocation-count="1" ignored="false">
 </statement>
                                 <statement 
-                                package="life" class="Cells$package" class-type="Object" full-class-name="life.Cells$package" source="/home/runner/work/life/life/src/main/scala/life/Cells.scala" method="rotate" start="4397" end="4412" line="109" branch="true" invocation-count="1" ignored="false">
+                                package="life" class="Cells$package" class-type="Object" full-class-name="life.Cells$package" source="/home/runner/work/life/life/src/main/scala/life/Cells.scala" method="rotate" start="4397" end="4412" line="109" branch="true" invocation-count="0" ignored="false">
 </statement>
                                 <statement 
                                 package="life" class="Cells$package" class-type="Object" full-class-name="life.Cells$package" source="/home/runner/work/life/life/src/main/scala/life/Cells.scala" method="rotate" start="5047" end="5098" line="122" branch="false" invocation-count="1" ignored="false">
