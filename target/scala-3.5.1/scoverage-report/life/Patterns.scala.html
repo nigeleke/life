@@ -1,0 +1,1175 @@
+<html>
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title id="title">
+          life/Patterns.scala.html
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.20.1/css/theme.default.min.css" type="text/css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.20.1/js/jquery.tablesorter.min.js"></script><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css"/><script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script><script type="text/javascript">
+        $(document).ready(function() {$(".tablesorter").tablesorter();});
+      </script>
+        <style>
+          table.codegrid { font-family: monospace; font-size: 12px; width: auto!important; }table.statementlist { width: auto!important; font-size: 13px; } table.codegrid td { padding: 0!important; border: 0!important } table td.linenumber { width: 40px!important; } 
+        </style>
+      </head>
+      <body style="font-family: monospace;">
+        <ul class="nav nav-tabs">
+          <li>
+            <a href="#codegrid" data-toggle="tab">Codegrid</a>
+          </li>
+          <li>
+            <a href="#statementlist" data-toggle="tab">Statement List</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="codegrid">
+            <pre style='font-size: 12pt; font-family: courier, monospace;'>1 <span style=''>/*
+</span>2 <span style=''> * Copyright (c) 2022, Nigel Eke
+</span>3 <span style=''> * All rights reserved.
+</span>4 <span style=''> *
+</span>5 <span style=''> * Redistribution and use in source and binary forms, with or without modification,
+</span>6 <span style=''> * are permitted provided that the following conditions are met:
+</span>7 <span style=''> *
+</span>8 <span style=''> * 1. Redistributions of source code must retain the above copyright notice, this
+</span>9 <span style=''> *    list of conditions and the following disclaimer.
+</span>10 <span style=''> *
+</span>11 <span style=''> * 2. Redistributions in binary form must reproduce the above copyright notice,
+</span>12 <span style=''> *    this list of conditions and the following disclaimer in the documentation
+</span>13 <span style=''> *    and/or other materials provided with the distribution.
+</span>14 <span style=''> *
+</span>15 <span style=''> * 3. Neither the name of the copyright holder nor the names of its contributors
+</span>16 <span style=''> *    may be used to endorse or promote products derived from this software without
+</span>17 <span style=''> *    specific prior written permission.
+</span>18 <span style=''> *
+</span>19 <span style=''> * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND
+</span>20 <span style=''> * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+</span>21 <span style=''> * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+</span>22 <span style=''> * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+</span>23 <span style=''> * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+</span>24 <span style=''> * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+</span>25 <span style=''> * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+</span>26 <span style=''> * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+</span>27 <span style=''> * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+</span>28 <span style=''> * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</span>29 <span style=''> */
+</span>30 <span style=''>
+</span>31 <span style=''>package life
+</span>32 <span style=''>
+</span>33 <span style=''>import scala.io.*
+</span>34 <span style=''>import scala.util.Random
+</span>35 <span style=''>
+</span>36 <span style=''>/** A collection of pre-defined [Cell] patterns to help build [World]s with well-known groupings.
+</span>37 <span style=''>  */
+</span>38 <span style=''>object Patterns:
+</span>39 <span style=''>
+</span>40 <span style=''>  </span><span style='background: #AEF1AE'>private def fromPattern</span><span style=''>(name: String): Cells =
+</span>41 <span style=''>    val source = </span><span style='background: #AEF1AE'>Source.fromResource(s&quot;patterns/$name.life&quot;)(Codec.defaultCharsetCodec)</span><span style=''>
+</span>42 <span style=''>    </span><span style='background: #AEF1AE'>Cells.fromText(source.mkString).toOption.fold(</span><span style='background: #F0ADAD'>???</span><span style='background: #AEF1AE'>)(identity)</span><span style=''>
+</span>43 <span style=''>
+</span>44 <span style=''>  /** @return
+</span>45 <span style=''>    *   A two period [Beacon](https://upload.wikimedia.org/wikipedia/commons/1/1c/Game_of_life_beacon.gif)
+</span>46 <span style=''>    */
+</span>47 <span style=''>  </span><span style='background: #AEF1AE'>def beacon</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;beacon&quot;)</span><span style=''>
+</span>48 <span style=''>
+</span>49 <span style=''>  /** @return
+</span>50 <span style=''>    *   A static
+</span>51 <span style=''>    *   [Beehive](https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Game_of_life_beehive.svg/196px-Game_of_life_beehive.svg.png)
+</span>52 <span style=''>    */
+</span>53 <span style=''>  </span><span style='background: #AEF1AE'>def beehive</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;beehive&quot;)</span><span style=''>
+</span>54 <span style=''>
+</span>55 <span style=''>  /** @return
+</span>56 <span style=''>    *   A two period [Blinker](https://upload.wikimedia.org/wikipedia/commons/9/95/Game_of_life_blinker.gif)
+</span>57 <span style=''>    */
+</span>58 <span style=''>  </span><span style='background: #AEF1AE'>def blinker</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;blinker&quot;)</span><span style=''>
+</span>59 <span style=''>
+</span>60 <span style=''>  /** @return
+</span>61 <span style=''>    *   A static
+</span>62 <span style=''>    *   [Block](https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Game_of_life_block_with_border.svg/132px-Game_of_life_block_with_border.svg.png)
+</span>63 <span style=''>    */
+</span>64 <span style=''>  </span><span style='background: #AEF1AE'>def block</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;block&quot;)</span><span style=''>
+</span>65 <span style=''>
+</span>66 <span style=''>  /** @return
+</span>67 <span style=''>    *   A static
+</span>68 <span style=''>    *   [Boat](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Game_of_life_boat.svg/164px-Game_of_life_boat.svg.png)
+</span>69 <span style=''>    */
+</span>70 <span style=''>  </span><span style='background: #AEF1AE'>def boat</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;boat&quot;)</span><span style=''>
+</span>71 <span style=''>
+</span>72 <span style=''>  /** @return
+</span>73 <span style=''>    *   An iterating [Glider](https://upload.wikimedia.org/wikipedia/commons/f/f2/Game_of_life_animated_glider.gif)
+</span>74 <span style=''>    */
+</span>75 <span style=''>  </span><span style='background: #AEF1AE'>def glider</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;glider&quot;)</span><span style=''>
+</span>76 <span style=''>
+</span>77 <span style=''>  /** @return
+</span>78 <span style=''>    *   An iterating [Gosper glider
+</span>79 <span style=''>    *   gun](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Game_of_life_glider_gun.svg/610px-Game_of_life_glider_gun.svg.png)
+</span>80 <span style=''>    */
+</span>81 <span style=''>  </span><span style='background: #AEF1AE'>def gliderGunGosper</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;gliderGunGosper&quot;)</span><span style=''>
+</span>82 <span style=''>
+</span>83 <span style=''>  /** @return
+</span>84 <span style=''>    *   A [Loaf](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Game_of_life_loaf.svg/196px-Game_of_life_loaf.svg.png)
+</span>85 <span style=''>    */
+</span>86 <span style=''>  </span><span style='background: #AEF1AE'>def loaf</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;loaf&quot;)</span><span style=''>
+</span>87 <span style=''>
+</span>88 <span style=''>  /** @return
+</span>89 <span style=''>    *   A 15 period [Penta-decathlon](https://upload.wikimedia.org/wikipedia/commons/f/fb/I-Column.gif)
+</span>90 <span style=''>    */
+</span>91 <span style=''>  </span><span style='background: #AEF1AE'>def pentaDecathlon</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;pentaDecathlon&quot;)</span><span style=''>
+</span>92 <span style=''>
+</span>93 <span style=''>  /** @return
+</span>94 <span style=''>    *   A three period [Pulsar](https://upload.wikimedia.org/wikipedia/commons/0/07/Game_of_life_pulsar.gif)
+</span>95 <span style=''>    */
+</span>96 <span style=''>  </span><span style='background: #AEF1AE'>def pulsar</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;pulsar&quot;)</span><span style=''>
+</span>97 <span style=''>
+</span>98 <span style=''>  /** @return
+</span>99 <span style=''>    *   An iterating [Lightweight Spaceship](https://upload.wikimedia.org/wikipedia/commons/3/37/Game_of_life_animated_LWSS.gif)
+</span>100 <span style=''>    */
+</span>101 <span style=''>  </span><span style='background: #AEF1AE'>def spaceshipLightweight</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;spaceshipLightweight&quot;)</span><span style=''>
+</span>102 <span style=''>
+</span>103 <span style=''>  /** @return
+</span>104 <span style=''>    *   A two period [Toad](https://upload.wikimedia.org/wikipedia/commons/1/12/Game_of_life_toad.gif)
+</span>105 <span style=''>    */
+</span>106 <span style=''>  </span><span style='background: #AEF1AE'>def toad</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;toad&quot;)</span><span style=''>
+</span>107 <span style=''>
+</span>108 <span style=''>  /** @return
+</span>109 <span style=''>    *   A static
+</span>110 <span style=''>    *   [Tub](https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Game_of_life_flower.svg/164px-Game_of_life_flower.svg.png)
+</span>111 <span style=''>    */
+</span>112 <span style=''>  </span><span style='background: #AEF1AE'>def tub</span><span style=''> = </span><span style='background: #AEF1AE'>fromPattern(&quot;tub&quot;)</span><span style=''>
+</span>113 <span style=''>
+</span>114 <span style=''>  /** Randomize a board's population. Cells are created in approxiamately 20% of the given board.
+</span>115 <span style=''>    * @param board
+</span>116 <span style=''>    *   The [Bounds] of the board to be populated.
+</span>117 <span style=''>    * @return
+</span>118 <span style=''>    *   The randomized population.
+</span>119 <span style=''>    */
+</span>120 <span style=''>  </span><span style='background: #AEF1AE'>def random</span><span style=''>(board: Bounds): Cells =
+</span>121 <span style=''>    </span><span style='background: #AEF1AE'>(for
+</span>122 <span style=''></span><span style='background: #AEF1AE'>      row    &lt;- board.rows
+</span>123 <span style=''></span><span style='background: #AEF1AE'>      column &lt;- board.columns
+</span>124 <span style=''></span><span style='background: #AEF1AE'>      if Random.nextDouble &lt;= 0.2
+</span>125 <span style=''></span><span style='background: #AEF1AE'>    yield Cell(row, column)).toSet</span><span style=''>
+</span></pre>
+          </div>
+          <div class="tab-pane" id="statementlist">
+            <table cellspacing="0" cellpadding="0" class="table statementlist">
+      <tr>
+        <th>Line</th>
+        <th>Stmt Id</th>
+        <th>Pos</th>
+        <th>Tree</th>
+        <th>Symbol</th>
+        <th>Tests</th>
+        <th>Code</th>
+      </tr><tr>
+        <td>
+          40
+        </td>
+        <td>
+          180
+        </td>
+        <td>
+          1760
+          -
+          1783
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          private def fromPattern
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          173
+        </td>
+        <td>
+          1868
+          -
+          1893
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          defaultCharsetCodec
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Codec.defaultCharsetCodec
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          172
+        </td>
+        <td>
+          1844
+          -
+          1866
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          s
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s&quot;patterns/$name.life&quot;
+        </td>
+      </tr><tr>
+        <td>
+          41
+        </td>
+        <td>
+          171
+        </td>
+        <td>
+          1824
+          -
+          1894
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromResource
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Source.fromResource(s&quot;patterns/$name.life&quot;)(Codec.defaultCharsetCodec)
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          176
+        </td>
+        <td>
+          1914
+          -
+          1929
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          mkString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          source.mkString
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          175
+        </td>
+        <td>
+          1899
+          -
+          1930
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromText
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Cells.fromText(source.mkString)
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          178
+        </td>
+        <td>
+          1945
+          -
+          1948
+        </td>
+        <td>
+          Ident
+        </td>
+        <td>
+          ???
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #F0ADAD">
+          ???
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          174
+        </td>
+        <td>
+          1899
+          -
+          1959
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fold
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Cells.fromText(source.mkString).toOption.fold(???)(identity)
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          177
+        </td>
+        <td>
+          1899
+          -
+          1939
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          toOption
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Cells.fromText(source.mkString).toOption
+        </td>
+      </tr><tr>
+        <td>
+          42
+        </td>
+        <td>
+          179
+        </td>
+        <td>
+          1950
+          -
+          1958
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          identity
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          identity
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          182
+        </td>
+        <td>
+          2091
+          -
+          2101
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          beacon
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def beacon
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          181
+        </td>
+        <td>
+          2104
+          -
+          2125
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;beacon&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          184
+        </td>
+        <td>
+          2304
+          -
+          2315
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          beehive
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def beehive
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          183
+        </td>
+        <td>
+          2318
+          -
+          2340
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;beehive&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          185
+        </td>
+        <td>
+          2488
+          -
+          2510
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;blinker&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          186
+        </td>
+        <td>
+          2474
+          -
+          2485
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          blinker
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def blinker
+        </td>
+      </tr><tr>
+        <td>
+          64
+        </td>
+        <td>
+          187
+        </td>
+        <td>
+          2719
+          -
+          2739
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;block&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          64
+        </td>
+        <td>
+          188
+        </td>
+        <td>
+          2707
+          -
+          2716
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          block
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def block
+        </td>
+      </tr><tr>
+        <td>
+          70
+        </td>
+        <td>
+          190
+        </td>
+        <td>
+          2909
+          -
+          2917
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          boat
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def boat
+        </td>
+      </tr><tr>
+        <td>
+          70
+        </td>
+        <td>
+          189
+        </td>
+        <td>
+          2920
+          -
+          2939
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;boat&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          75
+        </td>
+        <td>
+          191
+        </td>
+        <td>
+          3093
+          -
+          3114
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;glider&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          75
+        </td>
+        <td>
+          192
+        </td>
+        <td>
+          3080
+          -
+          3090
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          glider
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def glider
+        </td>
+      </tr><tr>
+        <td>
+          81
+        </td>
+        <td>
+          194
+        </td>
+        <td>
+          3313
+          -
+          3332
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          gliderGunGosper
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def gliderGunGosper
+        </td>
+      </tr><tr>
+        <td>
+          81
+        </td>
+        <td>
+          193
+        </td>
+        <td>
+          3335
+          -
+          3365
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;gliderGunGosper&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          86
+        </td>
+        <td>
+          196
+        </td>
+        <td>
+          3520
+          -
+          3528
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          loaf
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def loaf
+        </td>
+      </tr><tr>
+        <td>
+          86
+        </td>
+        <td>
+          195
+        </td>
+        <td>
+          3531
+          -
+          3550
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;loaf&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          91
+        </td>
+        <td>
+          198
+        </td>
+        <td>
+          3679
+          -
+          3697
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          pentaDecathlon
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def pentaDecathlon
+        </td>
+      </tr><tr>
+        <td>
+          91
+        </td>
+        <td>
+          197
+        </td>
+        <td>
+          3700
+          -
+          3729
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;pentaDecathlon&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          96
+        </td>
+        <td>
+          200
+        </td>
+        <td>
+          3863
+          -
+          3873
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          pulsar
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def pulsar
+        </td>
+      </tr><tr>
+        <td>
+          96
+        </td>
+        <td>
+          199
+        </td>
+        <td>
+          3876
+          -
+          3897
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;pulsar&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          202
+        </td>
+        <td>
+          4051
+          -
+          4075
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          spaceshipLightweight
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def spaceshipLightweight
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          201
+        </td>
+        <td>
+          4078
+          -
+          4113
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;spaceshipLightweight&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          106
+        </td>
+        <td>
+          204
+        </td>
+        <td>
+          4241
+          -
+          4249
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          toad
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def toad
+        </td>
+      </tr><tr>
+        <td>
+          106
+        </td>
+        <td>
+          203
+        </td>
+        <td>
+          4252
+          -
+          4271
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;toad&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          112
+        </td>
+        <td>
+          205
+        </td>
+        <td>
+          4454
+          -
+          4472
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromPattern
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromPattern(&quot;tub&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          112
+        </td>
+        <td>
+          206
+        </td>
+        <td>
+          4444
+          -
+          4451
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          tub
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def tub
+        </td>
+      </tr><tr>
+        <td>
+          120
+        </td>
+        <td>
+          212
+        </td>
+        <td>
+          4700
+          -
+          4710
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          random
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def random
+        </td>
+      </tr><tr>
+        <td>
+          121
+        </td>
+        <td>
+          207
+        </td>
+        <td>
+          4740
+          -
+          4862
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          flatMap
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          for\n      row    &lt;- board.rows\n      column &lt;- board.columns\n      if Random.nextDouble &lt;= 0.2\n    yield Cell(row, column)
+        </td>
+      </tr><tr>
+        <td>
+          123
+        </td>
+        <td>
+          209
+        </td>
+        <td>
+          4777
+          -
+          4834
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          withFilter
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          column &lt;- board.columns\n      if Random.nextDouble &lt;= 0.2
+        </td>
+      </tr><tr>
+        <td>
+          123
+        </td>
+        <td>
+          208
+        </td>
+        <td>
+          4777
+          -
+          4862
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          column &lt;- board.columns\n      if Random.nextDouble &lt;= 0.2\n    yield Cell(row, column)
+        </td>
+      </tr><tr>
+        <td>
+          124
+        </td>
+        <td>
+          210
+        </td>
+        <td>
+          4810
+          -
+          4827
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          nextDouble
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Random.nextDouble
+        </td>
+      </tr><tr>
+        <td>
+          125
+        </td>
+        <td>
+          211
+        </td>
+        <td>
+          4739
+          -
+          4869
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          toSet
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          (for\n      row    &lt;- board.rows\n      column &lt;- board.columns\n      if Random.nextDouble &lt;= 0.2\n    yield Cell(row, column)).toSet
+        </td>
+      </tr>
+    </table>
+          </div>
+        </div>
+      </body>
+    </html>
