@@ -1,4 +1,4 @@
-val scala3Version = "3.5.1"
+val scala3Version = "3.5.2"
 
 organizationName := "Nigel Eke"
 organization     := "nigeleke"
