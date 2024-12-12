@@ -19,6 +19,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - uses: sbt/setup-sbt@v1
+      
       - name: JDK
         uses: actions/setup-java@v4
         with:
@@ -60,6 +62,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: sbt/setup-sbt@v1
+    
       - name: JDK
         uses: actions/setup-java@v4
         with:
