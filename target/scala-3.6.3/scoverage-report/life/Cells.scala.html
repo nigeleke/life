@@ -1,0 +1,2589 @@
+<html>
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title id="title">
+          life/Cells.scala.html
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.20.1/css/theme.default.min.css" type="text/css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.20.1/js/jquery.tablesorter.min.js"></script><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css"/><script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script><script type="text/javascript">
+        $(document).ready(function() {$(".tablesorter").tablesorter();});
+      </script>
+        <style>
+          table.codegrid { font-family: monospace; font-size: 12px; width: auto!important; }table.statementlist { width: auto!important; font-size: 13px; } table.codegrid td { padding: 0!important; border: 0!important } table td.linenumber { width: 40px!important; } 
+        </style>
+      </head>
+      <body style="font-family: monospace;">
+        <ul class="nav nav-tabs">
+          <li>
+            <a href="#codegrid" data-toggle="tab">Codegrid</a>
+          </li>
+          <li>
+            <a href="#statementlist" data-toggle="tab">Statement List</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="codegrid">
+            <pre style='font-size: 12pt; font-family: courier, monospace;'>1 <span style=''>/*
+</span>2 <span style=''> * Copyright (c) 2022, Nigel Eke
+</span>3 <span style=''> * All rights reserved.
+</span>4 <span style=''> *
+</span>5 <span style=''> * Redistribution and use in source and binary forms, with or without modification,
+</span>6 <span style=''> * are permitted provided that the following conditions are met:
+</span>7 <span style=''> *
+</span>8 <span style=''> * 1. Redistributions of source code must retain the above copyright notice, this
+</span>9 <span style=''> *    list of conditions and the following disclaimer.
+</span>10 <span style=''> *
+</span>11 <span style=''> * 2. Redistributions in binary form must reproduce the above copyright notice,
+</span>12 <span style=''> *    this list of conditions and the following disclaimer in the documentation
+</span>13 <span style=''> *    and/or other materials provided with the distribution.
+</span>14 <span style=''> *
+</span>15 <span style=''> * 3. Neither the name of the copyright holder nor the names of its contributors
+</span>16 <span style=''> *    may be used to endorse or promote products derived from this software without
+</span>17 <span style=''> *    specific prior written permission.
+</span>18 <span style=''> *
+</span>19 <span style=''> * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND
+</span>20 <span style=''> * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+</span>21 <span style=''> * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+</span>22 <span style=''> * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+</span>23 <span style=''> * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+</span>24 <span style=''> * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+</span>25 <span style=''> * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+</span>26 <span style=''> * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+</span>27 <span style=''> * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+</span>28 <span style=''> * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</span>29 <span style=''> */
+</span>30 <span style=''>
+</span>31 <span style=''>package life
+</span>32 <span style=''>
+</span>33 <span style=''>import scala.io.*
+</span>34 <span style=''>import scala.util.*
+</span>35 <span style=''>import scala.util.Right
+</span>36 <span style=''>
+</span>37 <span style=''>/** [Cells] is a [Cell] collection.
+</span>38 <span style=''>  */
+</span>39 <span style=''>type Cells = Set[Cell]
+</span>40 <span style=''>
+</span>41 <span style=''>object Cells:
+</span>42 <span style=''>  type Error  = String
+</span>43 <span style=''>  type Result = Either[Error, Cells]
+</span>44 <span style=''>
+</span>45 <span style=''>  </span><span style='background: #AEF1AE'>private def fromTextEx</span><span style=''>(s: String): Cells =
+</span>46 <span style=''>    val rows = </span><span style='background: #AEF1AE'>s
+</span>47 <span style=''></span><span style='background: #AEF1AE'>      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces
+</span>48 <span style=''></span><span style='background: #AEF1AE'>      .split(&quot;\n&quot;)          // Split lines
+</span>49 <span style=''></span><span style='background: #AEF1AE'>      .filterNot(_.isBlank) // Remove blank lines
+</span>50 <span style=''></span><span style='background: #AEF1AE'>      .map(_.trim)          // Remove end of lines
+</span>51 <span style=''></span><span style='background: #AEF1AE'>      .toList</span><span style=''>
+</span>52 <span style=''>    val rowLengths = </span><span style='background: #AEF1AE'>rows.map(_.length)</span><span style=''>
+</span>53 <span style=''>    </span><span style='background: #AEF1AE'>require(s.length &gt; 0, &quot;Invalid empty string&quot;)</span><span style=''>
+</span>54 <span style=''>    </span><span style='background: #AEF1AE'>require(Set.from(rowLengths).sizeIs == 1, s&quot;Inconsistent row lengths $rowLengths&quot;)</span><span style=''>
+</span>55 <span style=''>    val liveCells = </span><span style='background: #AEF1AE'>for
+</span>56 <span style=''></span><span style='background: #AEF1AE'>      r &lt;- 0 until rows.length
+</span>57 <span style=''></span><span style='background: #AEF1AE'>      row = rows(r)
+</span>58 <span style=''></span><span style='background: #AEF1AE'>      c &lt;- 0 until row.length if row(c) != '.'
+</span>59 <span style=''></span><span style='background: #AEF1AE'>    yield Cell(r, c)</span><span style=''>
+</span>60 <span style=''>    </span><span style='background: #AEF1AE'>liveCells.toSet</span><span style=''>
+</span>61 <span style=''>
+</span>62 <span style=''>  /** Create a set of Cells from a multi-lined string representation. The first character of the string represents offset 0, 0.
+</span>63 <span style=''>    * Spaces and blank lines are removed, '.' are empty cells, anything else is a live cell.
+</span>64 <span style=''>    *
+</span>65 <span style=''>    * @param s
+</span>66 <span style=''>    *   The string representation.
+</span>67 <span style=''>    * @returns
+</span>68 <span style=''>    *   Either the [Cells] or an [Error].
+</span>69 <span style=''>    */
+</span>70 <span style=''>  </span><span style='background: #AEF1AE'>def fromText</span><span style=''>(s: String): Result =
+</span>71 <span style=''>    </span><span style='background: #AEF1AE'>Try(fromTextEx(s))</span><span style=''> match
+</span>72 <span style=''>      case Success(cells) </span><span style='background: #AEF1AE'>=&gt; Right[Error, Cells](cells)</span><span style=''>
+</span>73 <span style=''>      case Failure(error) </span><span style='background: #AEF1AE'>=&gt; Left[Error, Cells](error.getMessage)</span><span style=''>
+</span>74 <span style=''>
+</span>75 <span style=''>  </span><span style='background: #AEF1AE'>private def fromFilenameEx</span><span style=''>(filename: String): Cells =
+</span>76 <span style=''>    val source = </span><span style='background: #AEF1AE'>Source.fromFile(filename)(Codec.defaultCharsetCodec)</span><span style=''>
+</span>77 <span style=''>    </span><span style='background: #AEF1AE'>fromTextEx(source.getLines().mkString(&quot;\n&quot;))</span><span style=''>
+</span>78 <span style=''>
+</span>79 <span style=''>  /** Create a set of Cells from the content of a regular text file. The first character in the file is at offset 0, 0. Spaces and
+</span>80 <span style=''>    * blank lines are removed, '.' are empty cells, anything else is a live cell.
+</span>81 <span style=''>    *
+</span>82 <span style=''>    * @param filename
+</span>83 <span style=''>    *   The filename (and path) of the file cotaining the [Cells] description.
+</span>84 <span style=''>    * @returns
+</span>85 <span style=''>    *   Either the [Cells] or an [Error].
+</span>86 <span style=''>    */
+</span>87 <span style=''>  </span><span style='background: #AEF1AE'>def fromFilename</span><span style=''>(filename: String): Result =
+</span>88 <span style=''>    </span><span style='background: #AEF1AE'>Try(fromFilenameEx(filename))</span><span style=''> match
+</span>89 <span style=''>      case Success(cells) </span><span style='background: #AEF1AE'>=&gt; Right[Error, Cells](cells)</span><span style=''>
+</span>90 <span style=''>      case Failure(error) </span><span style='background: #AEF1AE'>=&gt; Left[Error, Cells](error.getMessage)</span><span style=''>
+</span>91 <span style=''>
+</span>92 <span style=''>extension (cells: Cells)
+</span>93 <span style=''>  </span><span style='background: #AEF1AE'>def bounds</span><span style=''>: Bounds =
+</span>94 <span style=''>    val head :: rest = </span><span style='background: #AEF1AE'>cells.toList</span><span style=''>: @unchecked
+</span>95 <span style=''>    val headBounds   = Bounds(</span><span style='background: #AEF1AE'>head.row to head.row</span><span style=''>, </span><span style='background: #AEF1AE'>head.column to head.column</span><span style=''>)
+</span>96 <span style=''>
+</span>97 <span style=''>    </span><span style='background: #AEF1AE'>def updateBounds</span><span style=''>(bounds: Bounds, cell: Cell) =
+</span>98 <span style=''>      bounds match
+</span>99 <span style=''>        case Bounds(rows, columns) =&gt;
+</span>100 <span style=''>          </span><span style='background: #AEF1AE'>val updatedRows    = Math.min(rows.min, cell.row) to Math.max(rows.max, cell.row)
+</span>101 <span style=''></span><span style='background: #AEF1AE'>          val updatedColumns = Math.min(columns.min, cell.column) to Math.max(columns.max, cell.column)
+</span>102 <span style=''></span><span style='background: #AEF1AE'>          Bounds(updatedRows, updatedColumns)</span><span style=''>
+</span>103 <span style=''>
+</span>104 <span style=''>    </span><span style='background: #AEF1AE'>rest.foldLeft(headBounds)(updateBounds)</span><span style=''>
+</span>105 <span style=''>
+</span>106 <span style=''>  </span><span style='background: #AEF1AE'>def rotate</span><span style=''>(n: Int) =
+</span>107 <span style=''>    val order   = 4
+</span>108 <span style=''>    val modulus = n % order
+</span>109 <span style=''>    val cycle   = if modulus &gt;= 0 then </span><span style='background: #AEF1AE'>modulus</span><span style=''> else </span><span style='background: #AEF1AE'>order + modulus</span><span style=''>
+</span>110 <span style=''>
+</span>111 <span style=''>    val bounds               = </span><span style='background: #AEF1AE'>cells.bounds</span><span style=''>
+</span>112 <span style=''>    val boundsRow            = </span><span style='background: #AEF1AE'>IndexedSeq.from(bounds.rows)</span><span style=''>
+</span>113 <span style=''>    val boundsRowReversed    = </span><span style='background: #AEF1AE'>IndexedSeq.from(boundsRow.reverse)</span><span style=''>
+</span>114 <span style=''>    val boundsColumn         = </span><span style='background: #AEF1AE'>IndexedSeq.from(bounds.columns)</span><span style=''>
+</span>115 <span style=''>    val boundsColumnReversed = </span><span style='background: #AEF1AE'>IndexedSeq.from(boundsColumn.reverse)</span><span style=''>
+</span>116 <span style=''>
+</span>117 <span style=''>    </span><span style='background: #AEF1AE'>def rotate0</span><span style=''>(cell: Cell)   = cell // indentity
+</span>118 <span style=''>    </span><span style='background: #AEF1AE'>def rotate90</span><span style=''>(cell: Cell)  = Cell(cell.column, </span><span style='background: #AEF1AE'>boundsRowReversed(cell.row)</span><span style=''>)
+</span>119 <span style=''>    </span><span style='background: #AEF1AE'>def rotate180</span><span style=''>(cell: Cell) = Cell(</span><span style='background: #AEF1AE'>boundsRowReversed(cell.row)</span><span style=''>, </span><span style='background: #AEF1AE'>boundsColumnReversed(cell.column)</span><span style=''>)
+</span>120 <span style=''>    </span><span style='background: #AEF1AE'>def rotate270</span><span style=''>(cell: Cell) = Cell(</span><span style='background: #AEF1AE'>boundsColumnReversed(cell.column)</span><span style=''>, cell.row)
+</span>121 <span style=''>
+</span>122 <span style=''>    val rotate = </span><span style='background: #AEF1AE'>IndexedSeq(rotate0, rotate90, rotate180, rotate270)(cycle)</span><span style=''>
+</span>123 <span style=''>    </span><span style='background: #AEF1AE'>cells.map(rotate)</span><span style=''>
+</span></pre>
+          </div>
+          <div class="tab-pane" id="statementlist">
+            <table cellspacing="0" cellpadding="0" class="table statementlist">
+      <tr>
+        <th>Line</th>
+        <th>Stmt Id</th>
+        <th>Pos</th>
+        <th>Tree</th>
+        <th>Symbol</th>
+        <th>Tests</th>
+        <th>Code</th>
+      </tr><tr>
+        <td>
+          45
+        </td>
+        <td>
+          92
+        </td>
+        <td>
+          1798
+          -
+          1820
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          fromTextEx
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          private def fromTextEx
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          59
+        </td>
+        <td>
+          1856
+          -
+          2014
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces\n      .split(&quot;\\n&quot;)          // Split lines\n      .filterNot(_.isBlank) // Remove blank lines\n      .map(_.trim)
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          62
+        </td>
+        <td>
+          1856
+          -
+          1921
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          refArrayOps
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces\n      .split(&quot;\\n&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          58
+        </td>
+        <td>
+          1856
+          -
+          2014
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          wrapRefArray
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces\n      .split(&quot;\\n&quot;)          // Split lines\n      .filterNot(_.isBlank) // Remove blank lines\n      .map(_.trim)
+        </td>
+      </tr><tr>
+        <td>
+          46
+        </td>
+        <td>
+          60
+        </td>
+        <td>
+          1856
+          -
+          1973
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          refArrayOps
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces\n      .split(&quot;\\n&quot;)          // Split lines\n      .filterNot(_.isBlank)
+        </td>
+      </tr><tr>
+        <td>
+          47
+        </td>
+        <td>
+          64
+        </td>
+        <td>
+          1856
+          -
+          1881
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          replace
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          48
+        </td>
+        <td>
+          63
+        </td>
+        <td>
+          1856
+          -
+          1921
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          split
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces\n      .split(&quot;\\n&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          49
+        </td>
+        <td>
+          65
+        </td>
+        <td>
+          1963
+          -
+          1972
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          isBlank
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          _.isBlank
+        </td>
+      </tr><tr>
+        <td>
+          49
+        </td>
+        <td>
+          61
+        </td>
+        <td>
+          1856
+          -
+          1973
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          filterNot
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces\n      .split(&quot;\\n&quot;)          // Split lines\n      .filterNot(_.isBlank)
+        </td>
+      </tr><tr>
+        <td>
+          50
+        </td>
+        <td>
+          66
+        </td>
+        <td>
+          2007
+          -
+          2013
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          trim
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          _.trim
+        </td>
+      </tr><tr>
+        <td>
+          51
+        </td>
+        <td>
+          67
+        </td>
+        <td>
+          1856
+          -
+          2060
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          toList
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s\n      .replace(&quot; &quot;, &quot;&quot;)     // Remove spaces\n      .split(&quot;\\n&quot;)          // Split lines\n      .filterNot(_.isBlank) // Remove blank lines\n      .map(_.trim)          // Remove end of lines\n      .toList
+        </td>
+      </tr><tr>
+        <td>
+          52
+        </td>
+        <td>
+          68
+        </td>
+        <td>
+          2082
+          -
+          2100
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rows.map(_.length)
+        </td>
+      </tr><tr>
+        <td>
+          52
+        </td>
+        <td>
+          69
+        </td>
+        <td>
+          2091
+          -
+          2099
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          length
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          _.length
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          71
+        </td>
+        <td>
+          2113
+          -
+          2121
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          length
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s.length
+        </td>
+      </tr><tr>
+        <td>
+          53
+        </td>
+        <td>
+          70
+        </td>
+        <td>
+          2105
+          -
+          2150
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          require
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          require(s.length &gt; 0, &quot;Invalid empty string&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          74
+        </td>
+        <td>
+          2163
+          -
+          2183
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          from
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Set.from(rowLengths)
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          73
+        </td>
+        <td>
+          2163
+          -
+          2195
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          ==
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Set.from(rowLengths).sizeIs == 1
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          76
+        </td>
+        <td>
+          2197
+          -
+          2236
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          s
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          s&quot;Inconsistent row lengths $rowLengths&quot;
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          72
+        </td>
+        <td>
+          2155
+          -
+          2237
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          require
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          require(Set.from(rowLengths).sizeIs == 1, s&quot;Inconsistent row lengths $rowLengths&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          54
+        </td>
+        <td>
+          75
+        </td>
+        <td>
+          2163
+          -
+          2190
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          sizeIs
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Set.from(rowLengths).sizeIs
+        </td>
+      </tr><tr>
+        <td>
+          55
+        </td>
+        <td>
+          77
+        </td>
+        <td>
+          2258
+          -
+          2380
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          flatMap
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          for\n      r &lt;- 0 until rows.length\n      row = rows(r)\n      c &lt;- 0 until row.length if row(c) != '.'\n    yield Cell(r, c)
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          80
+        </td>
+        <td>
+          2273
+          -
+          2274
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          intWrapper
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          0
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          79
+        </td>
+        <td>
+          2273
+          -
+          2292
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          until
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          0 until rows.length
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          78
+        </td>
+        <td>
+          2268
+          -
+          2312
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          r &lt;- 0 until rows.length\n      row = rows(r)
+        </td>
+      </tr><tr>
+        <td>
+          56
+        </td>
+        <td>
+          81
+        </td>
+        <td>
+          2281
+          -
+          2292
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          length
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rows.length
+        </td>
+      </tr><tr>
+        <td>
+          57
+        </td>
+        <td>
+          82
+        </td>
+        <td>
+          2305
+          -
+          2312
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rows(r)
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          83
+        </td>
+        <td>
+          2319
+          -
+          2380
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          c &lt;- 0 until row.length if row(c) != '.'\n    yield Cell(r, c)
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          86
+        </td>
+        <td>
+          2324
+          -
+          2325
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          intWrapper
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          0
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          89
+        </td>
+        <td>
+          2346
+          -
+          2349
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          augmentString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          row
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          85
+        </td>
+        <td>
+          2324
+          -
+          2342
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          until
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          0 until row.length
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          88
+        </td>
+        <td>
+          2346
+          -
+          2352
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          row(c)
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          87
+        </td>
+        <td>
+          2332
+          -
+          2342
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          length
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          row.length
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          90
+        </td>
+        <td>
+          2319
+          -
+          2380
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          c &lt;- 0 until row.length if row(c) != '.'\n    yield Cell(r, c)
+        </td>
+      </tr><tr>
+        <td>
+          58
+        </td>
+        <td>
+          84
+        </td>
+        <td>
+          2319
+          -
+          2359
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          withFilter
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          c &lt;- 0 until row.length if row(c) != '.'
+        </td>
+      </tr><tr>
+        <td>
+          60
+        </td>
+        <td>
+          91
+        </td>
+        <td>
+          2385
+          -
+          2400
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          toSet
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          liveCells.toSet
+        </td>
+      </tr><tr>
+        <td>
+          70
+        </td>
+        <td>
+          98
+        </td>
+        <td>
+          2745
+          -
+          2757
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          fromText
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def fromText
+        </td>
+      </tr><tr>
+        <td>
+          71
+        </td>
+        <td>
+          94
+        </td>
+        <td>
+          2787
+          -
+          2800
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromTextEx
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromTextEx(s)
+        </td>
+      </tr><tr>
+        <td>
+          71
+        </td>
+        <td>
+          93
+        </td>
+        <td>
+          2783
+          -
+          2801
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Try(fromTextEx(s))
+        </td>
+      </tr><tr>
+        <td>
+          72
+        </td>
+        <td>
+          95
+        </td>
+        <td>
+          2834
+          -
+          2863
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          =&gt; Right[Error, Cells](cells)
+        </td>
+      </tr><tr>
+        <td>
+          73
+        </td>
+        <td>
+          97
+        </td>
+        <td>
+          2890
+          -
+          2929
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          =&gt; Left[Error, Cells](error.getMessage)
+        </td>
+      </tr><tr>
+        <td>
+          73
+        </td>
+        <td>
+          96
+        </td>
+        <td>
+          2912
+          -
+          2928
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          getMessage
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          error.getMessage
+        </td>
+      </tr><tr>
+        <td>
+          75
+        </td>
+        <td>
+          104
+        </td>
+        <td>
+          2933
+          -
+          2959
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          fromFilenameEx
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          private def fromFilenameEx
+        </td>
+      </tr><tr>
+        <td>
+          76
+        </td>
+        <td>
+          100
+        </td>
+        <td>
+          3030
+          -
+          3055
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          defaultCharsetCodec
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Codec.defaultCharsetCodec
+        </td>
+      </tr><tr>
+        <td>
+          76
+        </td>
+        <td>
+          99
+        </td>
+        <td>
+          3004
+          -
+          3056
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromFile
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Source.fromFile(filename)(Codec.defaultCharsetCodec)
+        </td>
+      </tr><tr>
+        <td>
+          77
+        </td>
+        <td>
+          101
+        </td>
+        <td>
+          3061
+          -
+          3105
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromTextEx
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromTextEx(source.getLines().mkString(&quot;\\n&quot;))
+        </td>
+      </tr><tr>
+        <td>
+          77
+        </td>
+        <td>
+          103
+        </td>
+        <td>
+          3072
+          -
+          3089
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          getLines
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          source.getLines()
+        </td>
+      </tr><tr>
+        <td>
+          77
+        </td>
+        <td>
+          102
+        </td>
+        <td>
+          3072
+          -
+          3104
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          mkString
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          source.getLines().mkString(&quot;\\n&quot;)
+        </td>
+      </tr><tr>
+        <td>
+          87
+        </td>
+        <td>
+          110
+        </td>
+        <td>
+          3493
+          -
+          3509
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          fromFilename
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def fromFilename
+        </td>
+      </tr><tr>
+        <td>
+          88
+        </td>
+        <td>
+          106
+        </td>
+        <td>
+          3546
+          -
+          3570
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          fromFilenameEx
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          fromFilenameEx(filename)
+        </td>
+      </tr><tr>
+        <td>
+          88
+        </td>
+        <td>
+          105
+        </td>
+        <td>
+          3542
+          -
+          3571
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Try(fromFilenameEx(filename))
+        </td>
+      </tr><tr>
+        <td>
+          89
+        </td>
+        <td>
+          107
+        </td>
+        <td>
+          3604
+          -
+          3633
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          =&gt; Right[Error, Cells](cells)
+        </td>
+      </tr><tr>
+        <td>
+          90
+        </td>
+        <td>
+          109
+        </td>
+        <td>
+          3660
+          -
+          3699
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          =&gt; Left[Error, Cells](error.getMessage)
+        </td>
+      </tr><tr>
+        <td>
+          90
+        </td>
+        <td>
+          108
+        </td>
+        <td>
+          3682
+          -
+          3698
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          getMessage
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          error.getMessage
+        </td>
+      </tr><tr>
+        <td>
+          93
+        </td>
+        <td>
+          133
+        </td>
+        <td>
+          3728
+          -
+          3738
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          bounds
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def bounds
+        </td>
+      </tr><tr>
+        <td>
+          94
+        </td>
+        <td>
+          112
+        </td>
+        <td>
+          3769
+          -
+          3769
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          
+        </td>
+      </tr><tr>
+        <td>
+          94
+        </td>
+        <td>
+          111
+        </td>
+        <td>
+          3772
+          -
+          3784
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          toList
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          cells.toList
+        </td>
+      </tr><tr>
+        <td>
+          95
+        </td>
+        <td>
+          113
+        </td>
+        <td>
+          3827
+          -
+          3847
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          to
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          head.row to head.row
+        </td>
+      </tr><tr>
+        <td>
+          95
+        </td>
+        <td>
+          116
+        </td>
+        <td>
+          3849
+          -
+          3860
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          intWrapper
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          head.column
+        </td>
+      </tr><tr>
+        <td>
+          95
+        </td>
+        <td>
+          115
+        </td>
+        <td>
+          3849
+          -
+          3875
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          to
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          head.column to head.column
+        </td>
+      </tr><tr>
+        <td>
+          95
+        </td>
+        <td>
+          114
+        </td>
+        <td>
+          3827
+          -
+          3835
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          intWrapper
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          head.row
+        </td>
+      </tr><tr>
+        <td>
+          97
+        </td>
+        <td>
+          130
+        </td>
+        <td>
+          3882
+          -
+          3898
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          updateBounds
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def updateBounds
+        </td>
+      </tr><tr>
+        <td>
+          100
+        </td>
+        <td>
+          119
+        </td>
+        <td>
+          4017
+          -
+          4045
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          min
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.min(rows.min, cell.row)
+        </td>
+      </tr><tr>
+        <td>
+          100
+        </td>
+        <td>
+          122
+        </td>
+        <td>
+          4058
+          -
+          4066
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          max
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rows.max
+        </td>
+      </tr><tr>
+        <td>
+          100
+        </td>
+        <td>
+          118
+        </td>
+        <td>
+          4017
+          -
+          4045
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          intWrapper
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.min(rows.min, cell.row)
+        </td>
+      </tr><tr>
+        <td>
+          100
+        </td>
+        <td>
+          121
+        </td>
+        <td>
+          4049
+          -
+          4077
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          max
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.max(rows.max, cell.row)
+        </td>
+      </tr><tr>
+        <td>
+          100
+        </td>
+        <td>
+          129
+        </td>
+        <td>
+          3996
+          -
+          4227
+        </td>
+        <td>
+          Block
+        </td>
+        <td>
+          &lt;none&gt;
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          val updatedRows    = Math.min(rows.min, cell.row) to Math.max(rows.max, cell.row)\n          val updatedColumns = Math.min(columns.min, cell.column) to Math.max(columns.max, cell.column)\n          Bounds(updatedRows, updatedColumns)
+        </td>
+      </tr><tr>
+        <td>
+          100
+        </td>
+        <td>
+          120
+        </td>
+        <td>
+          4026
+          -
+          4034
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          min
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rows.min
+        </td>
+      </tr><tr>
+        <td>
+          100
+        </td>
+        <td>
+          117
+        </td>
+        <td>
+          4017
+          -
+          4077
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          to
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.min(rows.min, cell.row) to Math.max(rows.max, cell.row)
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          128
+        </td>
+        <td>
+          4156
+          -
+          4167
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          max
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          columns.max
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          125
+        </td>
+        <td>
+          4109
+          -
+          4143
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          min
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.min(columns.min, cell.column)
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          124
+        </td>
+        <td>
+          4109
+          -
+          4143
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          intWrapper
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.min(columns.min, cell.column)
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          127
+        </td>
+        <td>
+          4147
+          -
+          4181
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          max
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.max(columns.max, cell.column)
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          123
+        </td>
+        <td>
+          4109
+          -
+          4181
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          to
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          Math.min(columns.min, cell.column) to Math.max(columns.max, cell.column)
+        </td>
+      </tr><tr>
+        <td>
+          101
+        </td>
+        <td>
+          126
+        </td>
+        <td>
+          4118
+          -
+          4129
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          min
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          columns.min
+        </td>
+      </tr><tr>
+        <td>
+          104
+        </td>
+        <td>
+          131
+        </td>
+        <td>
+          4233
+          -
+          4272
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          foldLeft
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rest.foldLeft(headBounds)(updateBounds)
+        </td>
+      </tr><tr>
+        <td>
+          104
+        </td>
+        <td>
+          132
+        </td>
+        <td>
+          4259
+          -
+          4271
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          updateBounds
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          updateBounds
+        </td>
+      </tr><tr>
+        <td>
+          106
+        </td>
+        <td>
+          158
+        </td>
+        <td>
+          4276
+          -
+          4286
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          rotate
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def rotate
+        </td>
+      </tr><tr>
+        <td>
+          109
+        </td>
+        <td>
+          134
+        </td>
+        <td>
+          4384
+          -
+          4391
+        </td>
+        <td>
+          Ident
+        </td>
+        <td>
+          modulus
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          modulus
+        </td>
+      </tr><tr>
+        <td>
+          109
+        </td>
+        <td>
+          135
+        </td>
+        <td>
+          4397
+          -
+          4412
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          +
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          order + modulus
+        </td>
+      </tr><tr>
+        <td>
+          111
+        </td>
+        <td>
+          136
+        </td>
+        <td>
+          4445
+          -
+          4457
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          bounds
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          cells.bounds
+        </td>
+      </tr><tr>
+        <td>
+          112
+        </td>
+        <td>
+          137
+        </td>
+        <td>
+          4489
+          -
+          4517
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          from
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          IndexedSeq.from(bounds.rows)
+        </td>
+      </tr><tr>
+        <td>
+          113
+        </td>
+        <td>
+          139
+        </td>
+        <td>
+          4565
+          -
+          4582
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          reverse
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          boundsRow.reverse
+        </td>
+      </tr><tr>
+        <td>
+          113
+        </td>
+        <td>
+          138
+        </td>
+        <td>
+          4549
+          -
+          4583
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          from
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          IndexedSeq.from(boundsRow.reverse)
+        </td>
+      </tr><tr>
+        <td>
+          114
+        </td>
+        <td>
+          140
+        </td>
+        <td>
+          4615
+          -
+          4646
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          from
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          IndexedSeq.from(bounds.columns)
+        </td>
+      </tr><tr>
+        <td>
+          115
+        </td>
+        <td>
+          142
+        </td>
+        <td>
+          4694
+          -
+          4714
+        </td>
+        <td>
+          Select
+        </td>
+        <td>
+          reverse
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          boundsColumn.reverse
+        </td>
+      </tr><tr>
+        <td>
+          115
+        </td>
+        <td>
+          141
+        </td>
+        <td>
+          4678
+          -
+          4715
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          from
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          IndexedSeq.from(boundsColumn.reverse)
+        </td>
+      </tr><tr>
+        <td>
+          117
+        </td>
+        <td>
+          143
+        </td>
+        <td>
+          4721
+          -
+          4732
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          rotate0
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def rotate0
+        </td>
+      </tr><tr>
+        <td>
+          118
+        </td>
+        <td>
+          145
+        </td>
+        <td>
+          4771
+          -
+          4783
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          rotate90
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def rotate90
+        </td>
+      </tr><tr>
+        <td>
+          118
+        </td>
+        <td>
+          144
+        </td>
+        <td>
+          4817
+          -
+          4844
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          boundsRowReversed(cell.row)
+        </td>
+      </tr><tr>
+        <td>
+          119
+        </td>
+        <td>
+          146
+        </td>
+        <td>
+          4883
+          -
+          4910
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          boundsRowReversed(cell.row)
+        </td>
+      </tr><tr>
+        <td>
+          119
+        </td>
+        <td>
+          148
+        </td>
+        <td>
+          4850
+          -
+          4863
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          rotate180
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def rotate180
+        </td>
+      </tr><tr>
+        <td>
+          119
+        </td>
+        <td>
+          147
+        </td>
+        <td>
+          4912
+          -
+          4945
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          boundsColumnReversed(cell.column)
+        </td>
+      </tr><tr>
+        <td>
+          120
+        </td>
+        <td>
+          149
+        </td>
+        <td>
+          4984
+          -
+          5017
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          boundsColumnReversed(cell.column)
+        </td>
+      </tr><tr>
+        <td>
+          120
+        </td>
+        <td>
+          150
+        </td>
+        <td>
+          4951
+          -
+          4964
+        </td>
+        <td>
+          DefDef
+        </td>
+        <td>
+          rotate270
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          def rotate270
+        </td>
+      </tr><tr>
+        <td>
+          122
+        </td>
+        <td>
+          155
+        </td>
+        <td>
+          5077
+          -
+          5086
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          rotate180
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rotate180
+        </td>
+      </tr><tr>
+        <td>
+          122
+        </td>
+        <td>
+          151
+        </td>
+        <td>
+          5047
+          -
+          5105
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          IndexedSeq(rotate0, rotate90, rotate180, rotate270)(cycle)
+        </td>
+      </tr><tr>
+        <td>
+          122
+        </td>
+        <td>
+          154
+        </td>
+        <td>
+          5067
+          -
+          5075
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          rotate90
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rotate90
+        </td>
+      </tr><tr>
+        <td>
+          122
+        </td>
+        <td>
+          156
+        </td>
+        <td>
+          5088
+          -
+          5097
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          rotate270
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rotate270
+        </td>
+      </tr><tr>
+        <td>
+          122
+        </td>
+        <td>
+          153
+        </td>
+        <td>
+          5058
+          -
+          5065
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          rotate0
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          rotate0
+        </td>
+      </tr><tr>
+        <td>
+          122
+        </td>
+        <td>
+          152
+        </td>
+        <td>
+          5047
+          -
+          5098
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          apply
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          IndexedSeq(rotate0, rotate90, rotate180, rotate270)
+        </td>
+      </tr><tr>
+        <td>
+          123
+        </td>
+        <td>
+          157
+        </td>
+        <td>
+          5110
+          -
+          5127
+        </td>
+        <td>
+          Apply
+        </td>
+        <td>
+          map
+        </td>
+        <td>
+          
+        </td>
+        <td style="background: #AEF1AE">
+          cells.map(rotate)
+        </td>
+      </tr>
+    </table>
+          </div>
+        </div>
+      </body>
+    </html>
