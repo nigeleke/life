@@ -23,7 +23,7 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Test
+            - name: Coverage Tests
               run: |
                   rustup toolchain install nightly
                   rustup component add llvm-tools-preview --toolchain nightly
@@ -35,6 +35,9 @@ jobs:
               env:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+            - name: Publish to Codecov Housekeeping
+              run: rm cobertura.xml
+
             - name: Documentation
               run: |
                   cargo doc --no-deps
@@ -43,7 +46,7 @@ jobs:
                   cp README.md docs0/
                   cp -R target/doc/* docs0/api
 
-            - name: Publish
+            - name: Update gh-pages
               run: |
                   git config --global user.email "nigeleke@users.noreply.github.com"
                   git config --global user.name "Nigel Eke"
