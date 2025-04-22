@@ -28,3 +28,8 @@ metals.sbt
 .idea
 .idea_modules
 /.worksheet/
+
+
+# Added by cargo
+
+/target
