@@ -1,5 +1,4 @@
 use std::collections::HashSet;
-use std::env;
 use std::ops::RangeInclusive;
 use std::path::Path;
 
@@ -135,24 +134,8 @@ impl TryFrom<&Pattern> for World {
     type Error = WorldError;
 
     fn try_from(value: &Pattern) -> Result<Self, Self::Error> {
-        match value {
-            Pattern::Random => Ok(Self::random()),
-            _ => {
-                let exe = env::current_exe().expect("app executable path");
-                let asset = format!(
-                    "{}/assets/patterns/{}.life",
-                    exe.to_path_buf()
-                        .canonicalize()
-                        .unwrap_or_default()
-                        .parent()
-                        .unwrap()
-                        .display(),
-                    value.name()
-                );
-                let path = Path::new(asset.as_str());
-                Self::try_from(path)
-            }
-        }
+        let cells = Cells::try_from(value.cells_str())?;
+        Ok(Self::from(cells))
     }
 }
 
