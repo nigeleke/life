@@ -154,10 +154,13 @@ impl FromIterator<Cell> for Cells {
 
 impl std::fmt::Display for Cells {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut ordered = Vec::from_iter(self.0.iter());
+        ordered.sort();
+
         write!(
             f,
             "{}",
-            self.0
+            ordered
                 .iter()
                 .map(|c| c.to_string())
                 .collect::<Vec<_>>()
@@ -175,6 +178,6 @@ mod test {
     #[test]
     fn cells_can_be_displayed() {
         let cells = Cells::from_iter([Cell::new(42, 31), Cell::new(31, 42)]);
-        assert_eq!(cells.to_string(), "Cell(42, 31), Cell(31, 42)");
+        assert_eq!(cells.to_string(), "Cell(31, 42), Cell(42, 31)");
     }
 }
