@@ -1,8 +1,7 @@
 use thiserror::Error;
 
-use crate::life::{Generations, World, WorldError};
-
 use super::arguments::Arguments;
+use crate::life::{Generations, World, WorldError};
 
 #[derive(Debug, Error)]
 pub enum LifeErrors {
@@ -17,7 +16,7 @@ impl Life {
         let generations = &mut self.0;
         print!("{}{}", ansi::CLEAR_SCREEN, ansi::HOME);
         println!("{}", generations.current());
-        while let Some(generation) = generations.next() {
+        for generation in generations.by_ref() {
             print!("{}", ansi::HOME);
             println!("{}", generation);
             let duration = std::time::Duration::from_millis(200);
@@ -39,11 +38,11 @@ impl TryFrom<&Arguments> for Life {
         };
 
         if let Some(viewport) = value.viewport() {
-            world.with_viewport(&viewport);
+            world.with_viewport(viewport);
         }
 
         if let Some(bounds) = value.bounds() {
-            world.with_bounds(&bounds);
+            world.with_bounds(bounds);
         }
 
         let generations = Generations::new(world);

@@ -1,7 +1,9 @@
-use super::cell::Cell;
+use std::{
+    cmp::{max, min},
+    ops::RangeInclusive,
+};
 
-use std::cmp::{max, min};
-use std::ops::RangeInclusive;
+use super::cell::Cell;
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub enum Bounds {
@@ -33,14 +35,14 @@ impl Bounds {
     pub fn rows(&self) -> Option<&RangeInclusive<isize>> {
         match self {
             Bounds::Undefined => None,
-            Bounds::Defined(rows, _) => Some(&rows),
+            Bounds::Defined(rows, _) => Some(rows),
         }
     }
 
     pub fn columns(&self) -> Option<&RangeInclusive<isize>> {
         match self {
             Bounds::Undefined => None,
-            Bounds::Defined(_, columns) => Some(&columns),
+            Bounds::Defined(_, columns) => Some(columns),
         }
     }
 }

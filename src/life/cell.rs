@@ -22,10 +22,9 @@ impl Cell {
     pub fn neighbours(&self) -> Vec<Cell> {
         (-1..=1)
             .flat_map(|delta_row| {
-                (-1..=1).into_iter().filter_map(move |delta_column| {
-                    (delta_row != 0 || delta_column != 0)
-                        .then(|| *self + Position::new(delta_row, delta_column))
-                })
+                (-1..=1)
+                    .filter(move |delta_column| (delta_row != 0 || *delta_column != 0))
+                    .map(move |delta_column| *self + Position::new(delta_row, delta_column))
             })
             .collect::<Vec<_>>()
     }
