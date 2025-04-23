@@ -43,3 +43,16 @@ impl std::fmt::Display for Cell {
         write!(f, "Cell({}, {})", self.row, self.column)
     }
 }
+
+#[cfg(test)]
+mod test {
+    use pretty_assertions::assert_eq;
+
+    use super::*;
+
+    #[test]
+    fn cell_can_be_displayed() {
+        let cell = Cell::new(42, 31);
+        assert_eq!(cell.to_string(), "Cell(42, 31)".to_string());
+    }
+}
