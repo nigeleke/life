@@ -11,4 +11,5 @@ pub use cell::Cell;
 pub use cells::{Cells, CellsError};
 pub use generations::Generations;
 pub use pattern::Pattern;
-pub use world::World;
+pub use position::Position;
+pub use world::{World, WorldError};

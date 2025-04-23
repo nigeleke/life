@@ -8,6 +8,7 @@ use super::bounds::Bounds;
 use super::cell::Cell;
 use super::cells::{Cells, CellsError};
 use super::pattern::Pattern;
+use super::position::Position;
 
 #[derive(Debug, Error)]
 pub enum WorldError {
@@ -18,8 +19,8 @@ pub enum WorldError {
 #[derive(Clone, Debug, PartialEq)]
 pub struct World {
     live_cells: Cells,
-    bounds: Option<Bounds>,
-    viewport: Option<Bounds>,
+    bounds: Bounds,
+    viewport: Bounds,
 }
 
 impl World {
@@ -45,12 +46,10 @@ impl World {
     }
 
     fn remove_off_worlders(&mut self) {
-        if let Some(bounds) = self.bounds.as_ref() {
+        if let Bounds::Defined(rows, columns) = &self.bounds {
             let within_range = |r: &RangeInclusive<isize>, i: isize| r.contains(&i);
-            let within_bounds = |c: &Cell| {
-                within_range(bounds.rows().unwrap(), c.row())
-                    && within_range(bounds.columns().unwrap(), c.column())
-            };
+            let within_bounds =
+                |c: &Cell| within_range(rows, c.row()) && within_range(columns, c.column());
             let cells_in_bounds = self
                 .live_cells
                 .iter()
@@ -60,13 +59,21 @@ impl World {
         };
     }
 
-    pub fn with_bounds(&mut self, bounds: Bounds) {
-        self.bounds = Some(bounds);
-        self.remove_off_worlders()
+    pub fn with_bounds(&mut self, bounds: &Bounds) {
+        self.bounds = bounds.clone();
+        self.remove_off_worlders();
     }
 
-    pub fn with_viewport(&mut self, viewport: Bounds) {
-        self.viewport = Some(viewport);
+    pub fn bounds(&self) -> &Bounds {
+        &self.bounds
+    }
+
+    pub fn with_viewport(&mut self, viewport: &Bounds) {
+        self.viewport = viewport.clone();
+    }
+
+    pub fn viewport(&self) -> &Bounds {
+        &self.viewport
     }
 
     fn is_live(&self, cell: &Cell) -> bool {
@@ -103,11 +110,17 @@ impl World {
 
         self.live_cells.remove_cells(Cells::from_iter(dying_cells));
         self.live_cells.add_cells(Cells::from_iter(born_cells));
-        self.remove_off_worlders()
+        self.remove_off_worlders();
     }
 
     pub fn is_empty(&self) -> bool {
         self.live_cells.is_empty()
+    }
+
+    pub fn add_cells(&mut self, cells: Cells, offset: &Position) {
+        let cells = Cells::from_iter(cells.iter().map(|c| *c + *offset));
+        self.live_cells.add_cells(cells);
+        self.remove_off_worlders();
     }
 }
 
@@ -115,8 +128,8 @@ impl From<Cells> for World {
     fn from(value: Cells) -> Self {
         Self {
             live_cells: value,
-            bounds: None,
-            viewport: None,
+            bounds: Bounds::Undefined,
+            viewport: Bounds::Undefined,
         }
     }
 }
@@ -142,13 +155,15 @@ impl TryFrom<&Pattern> for World {
 impl std::fmt::Display for World {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let default_bounds = self.live_cells.bounds();
-        let bounds = self
-            .viewport
-            .as_ref()
-            .or(self.bounds.as_ref())
-            .unwrap_or(&default_bounds);
+        let bounds = if self.viewport.is_defined() {
+            &self.viewport
+        } else if self.bounds.is_defined() {
+            &self.bounds
+        } else {
+            &default_bounds
+        };
 
-        if let (Some(rows), Some(columns)) = (bounds.rows(), bounds.columns()) {
+        if let Bounds::Defined(rows, columns) = bounds {
             let pretty_row = |r: isize| {
                 columns
                     .clone()

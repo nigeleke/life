@@ -36,7 +36,11 @@ jobs:
                   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
             - name: Publish to Codecov Housekeeping
-              run: rm cobertura.xml
+              run: |
+                  rm cobertura.xml
+                  rm codecov
+                  rm codecov.SHA265SUM
+                  rm codecov.SHA265SUM.sig
 
             - name: Documentation
               run: |

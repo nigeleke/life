@@ -3,6 +3,7 @@ use super::world::World;
 
 use std::collections::HashSet;
 
+#[derive(Debug)]
 pub struct Generations {
     current: World,
     previous: HashSet<Cells>,
@@ -29,7 +30,8 @@ impl std::iter::Iterator for Generations {
         world.next_generation();
 
         let cells = world.live_cells().clone();
-        let world = self.previous.insert(cells).then_some(world);
+        let inserted = self.previous.insert(cells);
+        let world = inserted.then_some(world);
 
         if let Some(world) = world.as_ref() {
             self.current = world.clone();

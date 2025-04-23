@@ -11,6 +11,10 @@ pub enum Bounds {
 }
 
 impl Bounds {
+    pub fn is_defined(&self) -> bool {
+        matches!(self, Bounds::Defined(_, _))
+    }
+
     pub fn encompass(&mut self, cell: &Cell) {
         *self = match self {
             Bounds::Undefined => {

@@ -68,11 +68,12 @@ mod cell {
         .expect("valid cells");
         let mut world = World::from(initial_cells);
         world.next_generation();
+
         assert_eq!(world, World::from(expected_cells));
     }
 
     #[test]
-    fn be_born_when_three_live_neighbours_as_if_by_reproduction() {
+    fn should_be_born_when_three_live_neighbours_as_if_by_reproduction() {
         let initial_cells = Cells::try_from(
             r#"
     . x .

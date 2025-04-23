@@ -1,15 +1,13 @@
-use std::io::Write;
-
 use thiserror::Error;
 
-use crate::life::{Cells, CellsError, Generations, World};
+use crate::life::{Generations, World, WorldError};
 
 use super::arguments::Arguments;
 
 #[derive(Debug, Error)]
 pub enum LifeErrors {
     #[error("cannot create world")]
-    CannotCreateWorld(#[from] CellsError),
+    CannotCreateWorld(#[from] WorldError),
 }
 
 pub struct Life(Generations);
@@ -19,11 +17,9 @@ impl Life {
         let generations = &mut self.0;
         print!("{}{}", ansi::CLEAR_SCREEN, ansi::HOME);
         println!("{}", generations.current());
-        std::io::stdout().flush().unwrap();
         while let Some(generation) = generations.next() {
             print!("{}", ansi::HOME);
             println!("{}", generation);
-            std::io::stdout().flush().unwrap();
             let duration = std::time::Duration::from_millis(200);
             std::thread::sleep(duration);
         }
@@ -35,18 +31,19 @@ impl TryFrom<&Arguments> for Life {
 
     fn try_from(value: &Arguments) -> Result<Self, Self::Error> {
         let mut world = if let Some(path) = value.world() {
-            let cells = Cells::try_from(path.as_path())?;
-            World::from(cells)
+            World::try_from(path.as_path())?
+        } else if let Some(pattern) = value.pattern() {
+            World::try_from(pattern)?
         } else {
             World::random()
         };
 
         if let Some(viewport) = value.viewport() {
-            world.with_viewport(viewport.clone());
+            world.with_viewport(&viewport);
         }
 
         if let Some(bounds) = value.bounds() {
-            world.with_bounds(bounds.clone());
+            world.with_bounds(&bounds);
         }
 
         let generations = Generations::new(world);

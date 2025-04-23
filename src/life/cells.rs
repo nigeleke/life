@@ -1,6 +1,7 @@
 use super::bounds::Bounds;
 use super::cell::Cell;
 
+use hashable::HashableHashSet;
 use thiserror::*;
 
 use std::collections::{HashSet, hash_set};
@@ -17,12 +18,12 @@ pub enum CellsError {
     FileError(#[from] std::io::Error),
 }
 
-#[derive(Clone, Debug, Default, PartialEq, Eq)]
-pub struct Cells(HashSet<Cell>);
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+pub struct Cells(HashableHashSet<Cell>);
 
 impl Cells {
     pub fn new(cells: HashSet<Cell>) -> Self {
-        Cells(cells)
+        Cells(HashableHashSet::from_iter(cells))
     }
 
     pub fn bounds(&self) -> Bounds {
@@ -42,12 +43,12 @@ impl Cells {
     }
 
     pub fn add_cells(&mut self, cells: Cells) {
-        cells.into_iter().for_each(|c| self.add_cell(c));
+        cells.iter().for_each(|c| self.add_cell(*c));
     }
 
     pub fn remove_cells(&mut self, cells: Cells) {
-        cells.into_iter().for_each(|c| {
-            let _ = self.0.remove(&c);
+        cells.iter().for_each(|c| {
+            let _ = self.0.remove(c);
         });
     }
 
@@ -130,7 +131,7 @@ impl TryFrom<&str> for Cells {
             }
         }
 
-        Ok(Cells(cells))
+        Ok(Cells(HashableHashSet::from_iter(cells)))
     }
 }
 
@@ -145,24 +146,8 @@ impl TryFrom<&Path> for Cells {
 
 impl FromIterator<Cell> for Cells {
     fn from_iter<T: IntoIterator<Item = Cell>>(iter: T) -> Self {
-        let cells = HashSet::from_iter(iter);
+        let cells = HashableHashSet::from_iter(iter);
         Self(cells)
-    }
-}
-
-impl IntoIterator for Cells {
-    type Item = Cell;
-
-    type IntoIter = hash_set::IntoIter<Cell>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        self.0.into_iter()
-    }
-}
-
-impl std::hash::Hash for Cells {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        self.0.iter().for_each(|c| c.hash(state));
     }
 }
 
