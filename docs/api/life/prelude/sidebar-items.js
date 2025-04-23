@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Bounds","CellsError","Pattern"],"struct":["Arguments","Cell","Cells","Generations","Life","Position","World"]};
+window.SIDEBAR_ITEMS = {"enum":["CellsError","Pattern"],"struct":["Arguments","Bounds","Cell","Cells","Generations","Life","Position","World"]};
