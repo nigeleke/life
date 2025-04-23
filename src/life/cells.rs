@@ -1,13 +1,14 @@
-use super::bounds::Bounds;
-use super::cell::Cell;
+use std::{
+    collections::{HashSet, hash_set},
+    iter::Rev,
+    ops::RangeInclusive,
+    path::Path,
+};
 
 use hashable::HashableHashSet;
 use thiserror::*;
 
-use std::collections::{HashSet, hash_set};
-use std::iter::Rev;
-use std::ops::RangeInclusive;
-use std::path::Path;
+use super::{bounds::Bounds, cell::Cell};
 
 #[derive(Debug, Error)]
 pub enum CellsError {
@@ -162,5 +163,18 @@ impl std::fmt::Display for Cells {
                 .collect::<Vec<_>>()
                 .join(", ")
         )
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use pretty_assertions::assert_eq;
+
+    use super::*;
+
+    #[test]
+    fn cells_can_be_displayed() {
+        let cells = Cells::from_iter([Cell::new(42, 31), Cell::new(31, 42)]);
+        assert_eq!(cells.to_string(), "Cell(42, 31), Cell(31, 42)");
     }
 }
