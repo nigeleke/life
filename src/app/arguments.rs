@@ -22,7 +22,7 @@ fn parse_bounds(s: &str) -> Result<Bounds, String> {
 
     let rows = parse_range(ranges[0])?;
     let columns = parse_range(ranges[1])?;
-    Ok(Bounds::Defined(rows, columns))
+    Ok(Bounds::new(rows, columns))
 }
 
 #[derive(Debug, Parser)]
@@ -131,7 +131,7 @@ mod test {
         let args = Arguments::try_parse_from(args).expect("valid args");
         assert_eq!(args.source.world, None);
         assert_eq!(args.source.pattern, None);
-        assert_eq!(args.bounds, Some(Bounds::Defined(0..=10, 10..=20)));
+        assert_eq!(args.bounds, Some(Bounds::new(0..=10, 10..=20)));
         assert_eq!(args.viewport, None);
     }
 
@@ -163,7 +163,7 @@ mod test {
         assert_eq!(args.source.world, None);
         assert_eq!(args.source.pattern, None);
         assert_eq!(args.bounds, None);
-        assert_eq!(args.viewport, Some(Bounds::Defined(0..=10, 10..=20)));
+        assert_eq!(args.viewport, Some(Bounds::new(0..=10, 10..=20)));
     }
 
     #[test]

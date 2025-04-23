@@ -13,7 +13,7 @@ mod world {
 
     #[test]
     fn will_allow_world_limits_to_be_defined_when_all_enclosing() {
-        let bounds = Bounds::Defined(0..=10, 0..=10);
+        let bounds = Bounds::new(0..=10, 0..=10);
         let cells = Cells::try_from(
             r#"
 * * *
@@ -29,7 +29,7 @@ mod world {
 
     #[test]
     fn will_allow_world_limits_to_be_defined_when_restrictive() {
-        let bounds = Bounds::Defined(0..=1, 0..=1);
+        let bounds = Bounds::new(0..=1, 0..=1);
         let initial_cells = Cells::try_from(
             r#"
 * * *
@@ -52,8 +52,8 @@ mod world {
 
     #[test]
     fn will_allow_world_limits_to_be_defined_when_previously_defined() {
-        let initial_bounds = Bounds::Defined(0..=9, 0..=9);
-        let new_bounds = Bounds::Defined(0..=4, 0..=4);
+        let initial_bounds = Bounds::new(0..=9, 0..=9);
+        let new_bounds = Bounds::new(0..=4, 0..=4);
         let mut world = World::from(Cells::default());
         world.with_bounds(&initial_bounds);
         world.with_bounds(&new_bounds);
@@ -94,7 +94,7 @@ mod world {
 
     #[test]
     fn will_allow_additional_cells_to_be_added_when_bounded_world() {
-        let bounds = Bounds::Defined(0..=2, 0..=4);
+        let bounds = Bounds::new(0..=2, 0..=4);
         let initial_cells = Cells::try_from(
             r#"
 * * *
@@ -128,7 +128,7 @@ mod world {
 
     #[test]
     fn will_allow_a_viewport_to_be_defined() {
-        let viewport = Bounds::Defined(0..=10, 0..=10);
+        let viewport = Bounds::new(0..=10, 0..=10);
         let mut world = World::from(Cells::default());
         world.with_viewport(&viewport);
         assert_eq!(world.viewport(), &viewport);
@@ -155,7 +155,7 @@ mod world {
         )
         .expect("valid cells");
         let mut world = World::from(initial_cells);
-        world.with_viewport(&Bounds::Defined(2..=3, 1..=3));
+        world.with_viewport(&Bounds::new(2..=3, 1..=3));
 
         let expected = String::from(
             r#"*....

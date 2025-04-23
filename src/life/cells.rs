@@ -65,9 +65,9 @@ impl Cells {
         const ORDER: isize = 4;
         let cycle = n % ORDER;
         let bounds = self.bounds();
-        let row = bounds.rows().expect("bound rows");
+        let row = bounds.rows();
         let row_reversed = row.clone().rev();
-        let column = bounds.columns().expect("bound columns");
+        let column = bounds.columns();
         let column_reversed = column.clone().rev();
 
         let rev_index = |range: &RangeInclusive<isize>, rev: &Rev<RangeInclusive<isize>>| {

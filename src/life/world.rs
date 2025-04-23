@@ -26,16 +26,12 @@ pub struct World {
 impl World {
     pub fn random() -> Self {
         let mut cells = Cells::default();
-        let bounds = Bounds::Defined(0..=20, 0..=20);
-        bounds.rows().into_iter().for_each(|rs| {
-            rs.clone().for_each(|r| {
-                bounds.columns().into_iter().for_each(|cs| {
-                    cs.clone().for_each(|c| {
-                        if rand::random::<f32>() < 0.2 {
-                            cells.add_cell(Cell::new(r, c));
-                        }
-                    })
-                })
+        let bounds = Bounds::new(0..=20, 0..=20);
+        bounds.rows().clone().for_each(|r| {
+            bounds.columns().clone().for_each(|c| {
+                if rand::random::<f32>() < 0.2 {
+                    cells.add_cell(Cell::new(r, c));
+                }
             })
         });
         World::from(cells)
@@ -46,7 +42,8 @@ impl World {
     }
 
     fn remove_off_worlders(&mut self) {
-        if let Bounds::Defined(rows, columns) = &self.bounds {
+        if self.bounds.is_defined() {
+            let (rows, columns) = (self.bounds.rows(), self.bounds.columns());
             let within_range = |r: &RangeInclusive<isize>, i: isize| r.contains(&i);
             let within_bounds =
                 |c: &Cell| within_range(rows, c.row()) && within_range(columns, c.column());
@@ -56,7 +53,7 @@ impl World {
                 .filter_map(|c| within_bounds(c).then_some(*c))
                 .collect::<HashSet<_>>();
             self.live_cells = Cells::new(cells_in_bounds);
-        };
+        }
     }
 
     pub fn with_bounds(&mut self, bounds: &Bounds) {
@@ -128,8 +125,8 @@ impl From<Cells> for World {
     fn from(value: Cells) -> Self {
         Self {
             live_cells: value,
-            bounds: Bounds::Undefined,
-            viewport: Bounds::Undefined,
+            bounds: Bounds::default(),
+            viewport: Bounds::default(),
         }
     }
 }
@@ -163,9 +160,8 @@ impl std::fmt::Display for World {
             &default_bounds
         };
 
-        let Bounds::Defined(rows, columns) = bounds else {
-            unreachable!()
-        };
+        let rows = bounds.rows();
+        let columns = bounds.columns();
 
         let pretty_row = |r: isize| {
             columns
