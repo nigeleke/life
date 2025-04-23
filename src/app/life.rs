@@ -63,8 +63,15 @@ mod test {
     use super::*;
 
     #[test]
-    fn can_be_created_from_valid_program_args() {
+    fn can_be_created_from_valid_pattern_arg() {
         let args = "app --pattern=beehive".split_whitespace();
+        let args = Arguments::parse_from(args);
+        assert!(Life::try_from(&args).is_ok())
+    }
+
+    #[test]
+    fn can_be_created_from_valid_file_arg() {
+        let args = "app --world=./tests/data/initial_world.life".split_whitespace();
         let args = Arguments::parse_from(args);
         assert!(Life::try_from(&args).is_ok())
     }
