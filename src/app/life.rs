@@ -93,4 +93,13 @@ mod test {
         app.run();
         assert!(true);
     }
+
+    #[test]
+    fn will_run_to_completion_within_world_bounds() {
+        let args = "app --pattern=beehive --bounds=-1..10,-1..10".split_whitespace();
+        let args = Arguments::parse_from(args);
+        let mut app = Life::try_from(&args).expect("valid life");
+        app.run();
+        assert!(true);
+    }
 }
