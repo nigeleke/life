@@ -41,8 +41,8 @@ impl Bounds {
 impl Default for Bounds {
     fn default() -> Self {
         Self {
-            rows: 0..=-1,
-            columns: 0..=-1,
+            rows: RangeInclusive::new(0, -1),
+            columns: RangeInclusive::new(0, -1),
         }
     }
 }
