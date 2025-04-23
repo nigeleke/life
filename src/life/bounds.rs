@@ -47,26 +47,24 @@ impl Bounds {
     }
 }
 
-// /** Extract [Bounds] from a [Config]. The [Config] must be the root for the [Bounds] definition. The definition requires each of
-//   * `minRow`, `maxRow`, `minColumn` and `maxColumn` to be defined, e.g.,
-//   *
-//   * ```
-//   * mybounds {
-//   *   minRow: 0
-//   *   maxRow: 40
-//   *   minColumn: 0
-//   *   maxColumn: 80
-//   * }
-//   * ```
-//   *
-//   * @param config
-//   *   The root [Config] object
-//   * @return
-//   *   The [Bounds] object derived from the [Config] settings.
-//   */
-// def from(config: Config) =
-//   def intFor(s: String) = config.getInt(s)
-//   Bounds(
-//     intFor("minRow") to intFor("maxRow"),
-//     intFor("minColumn") to intFor("maxColumn")
-//   )
+#[cfg(test)]
+mod test {
+    use pretty_assertions::assert_eq;
+
+    use super::*;
+
+    #[test]
+    fn default_bounds_are_undefined() {
+        assert_eq!(Bounds::default(), Bounds::Undefined);
+    }
+
+    #[test]
+    fn there_are_no_default_bounds_rows() {
+        assert_eq!(Bounds::default().rows(), None);
+    }
+
+    #[test]
+    fn there_are_no_default_bounds_columns() {
+        assert_eq!(Bounds::default().columns(), None);
+    }
+}
