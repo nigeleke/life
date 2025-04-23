@@ -4,11 +4,12 @@ use super::arguments::Arguments;
 use crate::life::{Generations, World, WorldError};
 
 #[derive(Debug, Error)]
-pub enum LifeErrors {
+pub enum LifeError {
     #[error("cannot create world")]
     CannotCreateWorld(#[from] WorldError),
 }
 
+#[derive(Debug)]
 pub struct Life(Generations);
 
 impl Life {
@@ -26,7 +27,7 @@ impl Life {
 }
 
 impl TryFrom<&Arguments> for Life {
-    type Error = LifeErrors;
+    type Error = LifeError;
 
     fn try_from(value: &Arguments) -> Result<Self, Self::Error> {
         let mut world = if let Some(path) = value.world() {
@@ -53,4 +54,27 @@ impl TryFrom<&Arguments> for Life {
 mod ansi {
     pub const CLEAR_SCREEN: &str = "\x1b[2J";
     pub const HOME: &str = "\x1b[H";
+}
+
+#[cfg(test)]
+mod test {
+    use clap::Parser;
+
+    use super::*;
+
+    #[test]
+    fn can_be_created_from_valid_program_args() {
+        let args = "app --pattern=beehive".split_whitespace();
+        let args = Arguments::parse_from(args);
+        assert!(Life::try_from(&args).is_ok())
+    }
+
+    #[test]
+    fn will_run_to_completion() {
+        let args = "app --pattern=beehive".split_whitespace();
+        let args = Arguments::parse_from(args);
+        let mut app = Life::try_from(&args).expect("valid life");
+        app.run();
+        assert!(true);
+    }
 }
