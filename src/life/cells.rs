@@ -63,12 +63,7 @@ impl Cells {
 
     pub fn rotate(self, n: isize) -> Self {
         const ORDER: isize = 4;
-        let modulus = n % ORDER;
-        let cycle = if modulus >= 0 {
-            modulus
-        } else {
-            ORDER + modulus
-        };
+        let cycle = n % ORDER;
         let bounds = self.bounds();
         let row = bounds.rows().expect("bound rows");
         let row_reversed = row.clone().rev();
