@@ -150,6 +150,13 @@ mod test {
     }
 
     #[test]
+    fn invalid_bounds_3() {
+        let args = "app --bounds=0,1".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::ValueValidation));
+    }
+
+    #[test]
     fn valid_viewport() {
         let args = "app --viewport=0..10,10..20".split_whitespace();
         let args = Arguments::try_parse_from(args).expect("valid args");
@@ -167,8 +174,15 @@ mod test {
     }
 
     #[test]
-    fn invalid_viewpoer_2() {
+    fn invalid_viewport_2() {
         let args = "app --viewport=0..10,a..b".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::ValueValidation));
+    }
+
+    #[test]
+    fn invalid_viewport_3() {
+        let args = "app --viewport=0,1".split_whitespace();
         let error = Arguments::try_parse_from(args).expect_err("invalid args");
         assert!(matches!(error.kind(), ErrorKind::ValueValidation));
     }
