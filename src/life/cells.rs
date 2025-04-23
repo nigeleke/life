@@ -63,7 +63,7 @@ impl Cells {
 
     pub fn rotate(self, n: isize) -> Self {
         const ORDER: isize = 4;
-        let cycle = n % ORDER;
+        let cycle = n.rem_euclid(ORDER);
         let bounds = self.bounds();
         let row = bounds.rows();
         let row_reversed = row.clone().rev();
@@ -91,8 +91,7 @@ impl Cells {
                 0 => *c,
                 1 => Cell::new(c.column(), row_reversed(c.row())),
                 2 => Cell::new(row_reversed(c.row()), column_reversed(c.column())),
-                3 => Cell::new(column_reversed(c.column()), c.row()),
-                _ => unreachable!(),
+                _ => Cell::new(column_reversed(c.column()), c.row()), // 3, unreachable -1 & 4 conditions.
             };
             result.add_cell(new_cell);
         });
