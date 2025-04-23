@@ -39,8 +39,8 @@ jobs:
               run: |
                   rm cobertura.xml
                   rm codecov
-                  rm codecov.SHA265SUM
-                  rm codecov.SHA265SUM.sig
+                  rm codecov.SHA256SUM
+                  rm codecov.SHA256SUM.sig
 
             - name: Documentation
               run: |
