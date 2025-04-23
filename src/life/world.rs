@@ -1,14 +1,14 @@
-use std::collections::HashSet;
-use std::ops::RangeInclusive;
-use std::path::Path;
+use std::{collections::HashSet, ops::RangeInclusive, path::Path};
 
 use thiserror::*;
 
-use super::bounds::Bounds;
-use super::cell::Cell;
-use super::cells::{Cells, CellsError};
-use super::pattern::Pattern;
-use super::position::Position;
+use super::{
+    bounds::Bounds,
+    cell::Cell,
+    cells::{Cells, CellsError},
+    pattern::Pattern,
+    position::Position,
+};
 
 #[derive(Debug, Error)]
 pub enum WorldError {
@@ -163,25 +163,43 @@ impl std::fmt::Display for World {
             &default_bounds
         };
 
-        if let Bounds::Defined(rows, columns) = bounds {
-            let pretty_row = |r: isize| {
-                columns
-                    .clone()
-                    .map(|c| {
-                        if self.is_live(&Cell::new(r, c)) {
-                            "*"
-                        } else {
-                            " "
-                        }
-                    })
-                    .collect::<Vec<_>>()
-                    .join(" ")
-            };
+        let Bounds::Defined(rows, columns) = bounds else {
+            unreachable!()
+        };
 
-            let pretty_all = rows.clone().map(pretty_row).collect::<Vec<_>>().join("\n");
-            pretty_all.fmt(f)
-        } else {
-            "".fmt(f)
-        }
+        let pretty_row = |r: isize| {
+            columns
+                .clone()
+                .map(|c| {
+                    if self.is_live(&Cell::new(r, c)) {
+                        "*"
+                    } else {
+                        " "
+                    }
+                })
+                .collect::<Vec<_>>()
+                .join(" ")
+        };
+
+        let pretty_all = rows.clone().map(pretty_row).collect::<Vec<_>>().join("\n");
+        pretty_all.fmt(f)
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn will_create_world_from_valid_file() {
+        let path = Path::new("./tests/data/initial_world.life");
+        assert!(World::try_from(path).is_ok());
+    }
+
+    #[test]
+    fn will_not_create_world_from_invalid_file() {
+        let path = Path::new("./tests/data/file_does_not_exist.life");
+        let error = World::try_from(path).unwrap_err();
+        assert!(matches!(error, WorldError::BadPath(_)));
     }
 }
