@@ -1,7 +1,8 @@
 mod cells {
+    use std::path::Path;
+
     use life::prelude::*;
     use pretty_assertions::assert_eq;
-    use std::path::Path;
 
     #[test]
     fn should_be_creatable_when_empty() {
@@ -97,7 +98,7 @@ mod cells {
         .expect("valid cells");
         let expected_cells = initial_cells.clone();
         let actual_cells = initial_cells.rotate(0);
-        assert_eq!(expected_cells, actual_cells);
+        assert_eq!(actual_cells, expected_cells);
     }
 
     #[test]
@@ -121,7 +122,7 @@ mod cells {
         .expect("valid cells");
 
         let actual_cells = initial_cells.rotate(1);
-        assert_eq!(expected_cells, actual_cells);
+        assert_eq!(actual_cells, expected_cells);
     }
 
     #[test]
@@ -144,7 +145,7 @@ mod cells {
         .expect("valid cells");
 
         let actual_cells = initial_cells.rotate(2);
-        assert_eq!(expected_cells, actual_cells);
+        assert_eq!(actual_cells, expected_cells);
     }
 
     #[test]
@@ -168,6 +169,22 @@ mod cells {
         .expect("valid cells");
 
         let actual_cells = initial_cells.rotate(3);
-        assert_eq!(expected_cells, actual_cells);
+        assert_eq!(actual_cells, expected_cells);
+    }
+
+    #[test]
+    fn rotate_360_degrees() {
+        let initial_cells = Cells::try_from(
+            r#"
+* * * *
+. . * *
+. . . *
+"#,
+        )
+        .expect("valid cells");
+        let expected_cells = initial_cells.clone();
+
+        let actual_cells = initial_cells.rotate(4);
+        assert_eq!(actual_cells, expected_cells);
     }
 }
