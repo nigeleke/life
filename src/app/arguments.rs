@@ -1,5 +1,6 @@
-use clap::*;
 use std::{ops::RangeInclusive, path::PathBuf};
+
+use clap::*;
 
 use crate::prelude::{Bounds, Pattern};
 
@@ -70,5 +71,105 @@ impl Arguments {
 
     pub fn bounds(&self) -> Option<&Bounds> {
         self.bounds.as_ref()
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use clap::{error::ErrorKind, *};
+    use pretty_assertions::assert_eq;
+
+    use super::*;
+
+    #[test]
+    fn default_args() {
+        let args = "app".split_whitespace();
+        let args = Arguments::try_parse_from(args).expect("valid args");
+        assert_eq!(args.source.world, None);
+        assert_eq!(args.source.pattern, None);
+        assert_eq!(args.bounds, None);
+        assert_eq!(args.viewport, None);
+    }
+
+    #[test]
+    fn world() {
+        let args = "app --world=./file.life".split_whitespace();
+        let args = Arguments::try_parse_from(args).expect("valid args");
+        assert_eq!(args.source.world, Some(PathBuf::from("./file.life")));
+        assert_eq!(args.source.pattern, None);
+        assert_eq!(args.bounds, None);
+        assert_eq!(args.viewport, None);
+    }
+
+    #[test]
+    fn valid_pattern() {
+        let args = "app --pattern=gosper_glider_gun".split_whitespace();
+        let args = Arguments::try_parse_from(args).expect("valid args");
+        assert_eq!(args.source.world, None);
+        assert_eq!(args.source.pattern, Some(Pattern::GosperGliderGun));
+        assert_eq!(args.bounds, None);
+        assert_eq!(args.viewport, None);
+    }
+
+    #[test]
+    fn invalid_pattern() {
+        let args = "app --pattern=does_not_exist".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::InvalidValue));
+    }
+
+    #[test]
+    fn invalid_world_and_pattern() {
+        let args = "app --world=./file.life --pattern=glider".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::ArgumentConflict));
+    }
+
+    #[test]
+    fn valid_bounds() {
+        let args = "app --bounds=0..10,10..20".split_whitespace();
+        let args = Arguments::try_parse_from(args).expect("valid args");
+        assert_eq!(args.source.world, None);
+        assert_eq!(args.source.pattern, None);
+        assert_eq!(args.bounds, Some(Bounds::Defined(0..=10, 10..=20)));
+        assert_eq!(args.viewport, None);
+    }
+
+    #[test]
+    fn invalid_bounds_1() {
+        let args = "app --bounds=0..10".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::ValueValidation));
+    }
+
+    #[test]
+    fn invalid_bounds_2() {
+        let args = "app --bounds=0..10,a..b".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::ValueValidation));
+    }
+
+    #[test]
+    fn valid_viewport() {
+        let args = "app --viewport=0..10,10..20".split_whitespace();
+        let args = Arguments::try_parse_from(args).expect("valid args");
+        assert_eq!(args.source.world, None);
+        assert_eq!(args.source.pattern, None);
+        assert_eq!(args.bounds, None);
+        assert_eq!(args.viewport, Some(Bounds::Defined(0..=10, 10..=20)));
+    }
+
+    #[test]
+    fn invalid_viewport_1() {
+        let args = "app --viewport=0..10".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::ValueValidation));
+    }
+
+    #[test]
+    fn invalid_viewpoer_2() {
+        let args = "app --viewport=0..10,a..b".split_whitespace();
+        let error = Arguments::try_parse_from(args).expect_err("invalid args");
+        assert!(matches!(error.kind(), ErrorKind::ValueValidation));
     }
 }
