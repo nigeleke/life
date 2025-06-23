@@ -22,6 +22,11 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            - name: Tooling
+              run: |
+                rustup update
+                rustup component add clippy 
+                
             - name: Test
               run: |
                   cargo clippy
