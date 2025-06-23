@@ -18,7 +18,7 @@ jobs:
             - name: Tooling
               run: |
                 rustup update
-                rustup component install clippy 
+                rustup component add clippy 
 
             - name: Compile
               run: cargo build
