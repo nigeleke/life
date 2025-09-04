@@ -89,7 +89,6 @@ mod test {
         let args = Arguments::parse_from(args);
         let mut app = Life::try_from(&args).expect("valid life");
         app.run();
-        assert!(true);
     }
 
     #[test]
@@ -98,7 +97,6 @@ mod test {
         let args = Arguments::parse_from(args);
         let mut app = Life::try_from(&args).expect("valid life");
         app.run();
-        assert!(true);
     }
 
     #[test]
@@ -107,6 +105,5 @@ mod test {
         let args = Arguments::parse_from(args);
         let mut app = Life::try_from(&args).expect("valid life");
         app.run();
-        assert!(true);
     }
 }
