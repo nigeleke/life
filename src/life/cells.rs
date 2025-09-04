@@ -53,7 +53,7 @@ impl Cells {
         });
     }
 
-    pub fn iter(&self) -> hash_set::Iter<Cell> {
+    pub fn iter(&self) -> hash_set::Iter<'_, Cell> {
         self.0.iter()
     }
 

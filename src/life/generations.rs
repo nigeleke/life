@@ -1,7 +1,6 @@
-use super::cells::Cells;
-use super::world::World;
-
 use std::collections::HashSet;
+
+use super::{cells::Cells, world::World};
 
 #[derive(Debug)]
 pub struct Generations {

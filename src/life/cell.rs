@@ -23,7 +23,7 @@ impl Cell {
         (-1..=1)
             .flat_map(|delta_row| {
                 (-1..=1)
-                    .filter(move |delta_column| (delta_row != 0 || *delta_column != 0))
+                    .filter(move |delta_column| delta_row != 0 || *delta_column != 0)
                     .map(move |delta_column| *self + Position::new(delta_row, delta_column))
             })
             .collect::<Vec<_>>()
