@@ -1,0 +1,9 @@
+mod app;
+mod life;
+
+pub mod prelude {
+    pub use super::{
+        app::{Arguments, Life},
+        life::{Bounds, Cell, Cells, CellsError, Generations, Pattern, Position, World},
+    };
+}
