@@ -1,0 +1,2 @@
+createSrcSidebar('[["life",["",[["app",[],["arguments.rs","life.rs","mod.rs"]],["life",[],["bounds.rs","cell.rs","cells.rs","generations.rs","mod.rs","pattern.rs","position.rs","world.rs"]]],["lib.rs"]]]]');
+//{"start":19,"fragment_lengths":[184]}
