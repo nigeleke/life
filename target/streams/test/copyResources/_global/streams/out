@@ -1,4 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0mCopy resource mappings: [0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/home/runner/work/life/life/src/test/resources/invalidWorld.life,/home/runner/work/life/life/target/scala-3.3.0-RC2/test-classes/invalidWorld.life)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/home/runner/work/life/life/src/test/resources/initialWorld.life,/home/runner/work/life/life/target/scala-3.3.0-RC2/test-classes/initialWorld.life)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	(/home/runner/work/life/life/src/test/resources/application.conf,/home/runner/work/life/life/target/scala-3.3.0-RC2/test-classes/application.conf)[0m
