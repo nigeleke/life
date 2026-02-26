@@ -2,7 +2,7 @@
 
 [![MIT License](https://img.shields.io/github/license/nigeleke/lingora?style=plastic)](https://github.com/nigeleke/lingora/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/language-Rust-blue.svg?style=plastic)](https://www.rust-lang.org/)
-[![Build](https://img.shields.io/github/actions/workflow/status/nigeleke/life/ci.yml?style=plastic)](https://github.com/nigeleke/life/actions/workflows/ci.yml)
+[![Build](https://img.shields.io/github/workflow/status/nigeleke/life/ci.yml?style=plastic)](https://github.com/nigeleke/life/workflows/ci.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/nigeleke/life?style=plastic&token=DLJAILVYIK)](https://codecov.io/gh/nigeleke/life)
 ![Version](https://img.shields.io/github/v/tag/nigeleke/life?style=plastic)
 [![Dependabot badge](https://img.shields.io/badge/dependabot-enabled-blue.svg?style=plastic)](https://github.com/dependabot)
