@@ -1,6 +1,6 @@
 # life
 
-[![MIT License](https://img.shields.io/github/license/nigeleke/lingora?style=plastic)](https://github.com/nigeleke/lingora/blob/master/LICENSE)
+[![BSD-3](https://img.shields.io/github/license/nigeleke/life?style=plastic)](https://github.com/nigeleke/life/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/language-Rust-blue.svg?style=plastic)](https://www.rust-lang.org/)
 [![Build](https://img.shields.io/github/actions/workflow/status/nigeleke/life/ci.yml?style=plastic)](https://github.com/nigeleke/life/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/nigeleke/life?style=plastic)](https://codecov.io/gh/nigeleke/life)
