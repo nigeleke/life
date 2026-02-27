@@ -9,4 +9,5 @@
 
   [Site](https://nigeleke.github.io/life) \| [GitHub](https://github.com/nigeleke/life) \| [API](https://nigeleke.github.io/life/api/index.html)
 
-A [Rust](https://www.rust-lang.org/) implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).  This is based on the original [Scala](https://www.scala-lang.org/) one, which can be viewed in the repository history.
+A [Rust](https://www.rust-lang.org/) implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
+This is based on the original [Scala](https://www.scala-lang.org/) one, which can be viewed in the repository history.
