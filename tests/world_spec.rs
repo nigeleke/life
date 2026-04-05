@@ -5,7 +5,7 @@ mod world {
     #[test]
     fn will_allow_an_initial_set_of_cells_to_be_provided() {
         let mut cells = Cells::default();
-        cells.add_cell(Cell::new(0, 0));
+        cells.insert(Cell::new(0, 0));
 
         let world = World::from(cells);
         assert!(world.live_cells().contains(&Cell::new(0, 0)));

@@ -6,20 +6,22 @@ mod generations {
     fn should_be_an_iterator() {
         let world = World::try_from(&Pattern::Block).expect("valid pattern");
         let mut generations = Generations::new(world.clone());
-        let Some(new_world) = generations.next() else {
+
+        let Some(new_world) = generations.next_generation() else {
             panic!("invalid state")
         };
-        assert_eq!(new_world, world);
+
+        assert_eq!(new_world, &world);
     }
 
     #[test]
     fn should_iterate_to_the_next_generation() {
         let world = World::try_from(&Pattern::Toad).expect("valid pattern");
         let mut generations = Generations::new(world.clone());
-        let Some(new_world) = generations.next() else {
+        let Some(new_world) = generations.next_generation() else {
             panic!("invalid state")
         };
-        assert_ne!(new_world, world);
+        assert_ne!(new_world, &world);
     }
 
     #[test]
@@ -27,24 +29,24 @@ mod generations {
         let world = World::try_from(&Pattern::Toad).expect("valid pattern");
         let mut generations = Generations::new(world.clone());
 
-        let Some(_) = generations.next() else {
+        let Some(_) = generations.next_generation() else {
             panic!("invalid state")
         };
 
-        let Some(_) = generations.next() else {
+        let Some(_) = generations.next_generation() else {
             panic!("invalid state")
         };
 
-        assert_eq!(generations.next(), None);
+        assert_eq!(generations.next_generation(), None);
     }
 
     #[test]
     fn should_stop_when_the_world_is_dead() {
         let world = World::from(Cells::from_iter([Cell::new(0, 0)]));
         let mut generations = Generations::new(world);
-        let Some(_) = generations.next() else {
+        let Some(_) = generations.next_generation() else {
             panic!("invalid state")
         };
-        assert_eq!(generations.next(), None);
+        assert_eq!(generations.next_generation(), None);
     }
 }

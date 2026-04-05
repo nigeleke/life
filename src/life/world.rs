@@ -1,4 +1,4 @@
-use std::{collections::HashSet, ops::RangeInclusive, path::Path};
+use std::{collections::HashSet, path::Path};
 
 use thiserror::*;
 
@@ -30,7 +30,7 @@ impl World {
         bounds.rows().clone().for_each(|r| {
             bounds.columns().clone().for_each(|c| {
                 if rand::random::<f32>() < 0.2 {
-                    cells.add_cell(Cell::new(r, c));
+                    cells.insert(Cell::new(r, c));
                 }
             })
         });
@@ -44,15 +44,8 @@ impl World {
     fn remove_off_worlders(&mut self) {
         if self.bounds.is_defined() {
             let (rows, columns) = (self.bounds.rows(), self.bounds.columns());
-            let within_range = |r: &RangeInclusive<isize>, i: isize| r.contains(&i);
-            let within_bounds =
-                |c: &Cell| within_range(rows, c.row()) && within_range(columns, c.column());
-            let cells_in_bounds = self
-                .live_cells
-                .iter()
-                .filter_map(|c| within_bounds(c).then_some(*c))
-                .collect::<HashSet<_>>();
-            self.live_cells = Cells::new(cells_in_bounds);
+            self.live_cells
+                .retain(|c| rows.contains(&c.row()) && columns.contains(&c.column()));
         }
     }
 
@@ -78,35 +71,34 @@ impl World {
     }
 
     fn neighbour_count(&self, cell: &Cell) -> usize {
-        cell.neighbours()
-            .iter()
-            .filter(|cell| self.is_live(cell))
-            .count()
+        cell.neighbours().filter(|cell| self.is_live(cell)).count()
     }
 
     pub fn next_generation(&mut self) {
-        let mut cells_to_consider = HashSet::<Cell>::new();
+        let cells_to_consider =
+            self.live_cells
+                .iter()
+                .copied()
+                .fold(HashSet::new(), |mut acc, c| {
+                    acc.insert(c);
+                    acc.extend(c.neighbours());
+                    acc
+                });
 
-        self.live_cells.iter().for_each(|c| {
-            cells_to_consider.insert(*c);
-            cells_to_consider.extend(c.neighbours());
-        });
-
-        let neighbour_counts = cells_to_consider
-            .iter()
-            .map(|c| (c, self.neighbour_count(c)))
+        let cell_counts = cells_to_consider
+            .into_iter()
+            .map(|c| (c, self.neighbour_count(&c)))
             .collect::<Vec<_>>();
 
-        let dying_cells = neighbour_counts
-            .iter()
-            .filter_map(|(cell, count)| (*count < 2 || *count > 3).then_some(**cell));
+        cell_counts.iter().for_each(|(cell, count)| {
+            let _ = match count {
+                0 | 1 => self.live_cells.remove(cell),
+                2 => false,
+                3 => self.live_cells.insert(*cell),
+                _ => self.live_cells.remove(cell),
+            };
+        });
 
-        let born_cells = neighbour_counts
-            .iter()
-            .filter_map(|(cell, count)| (*count == 3).then_some(**cell));
-
-        self.live_cells.remove_cells(Cells::from_iter(dying_cells));
-        self.live_cells.add_cells(Cells::from_iter(born_cells));
         self.remove_off_worlders();
     }
 
@@ -115,8 +107,9 @@ impl World {
     }
 
     pub fn add_cells(&mut self, cells: Cells, offset: &Position) {
-        let cells = Cells::from_iter(cells.iter().map(|c| *c + *offset));
-        self.live_cells.add_cells(cells);
+        cells.iter().map(|c| *c + *offset).for_each(|c| {
+            self.live_cells.insert(c);
+        });
         self.remove_off_worlders();
     }
 }

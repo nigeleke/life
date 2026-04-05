@@ -1,11 +1,12 @@
 use std::{
-    collections::{HashSet, hash_set},
+    collections::HashSet,
     iter::Rev,
-    ops::RangeInclusive,
+    ops::{Deref, DerefMut, RangeInclusive},
     path::Path,
 };
 
 use hashable::HashableHashSet;
+use rayon::prelude::*;
 use thiserror::*;
 
 use super::{bounds::Bounds, cell::Cell};
@@ -20,6 +21,7 @@ pub enum CellsError {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+#[repr(transparent)]
 pub struct Cells(HashableHashSet<Cell>);
 
 impl Cells {
@@ -33,32 +35,6 @@ impl Cells {
             bounds.encompass(cell);
         });
         bounds
-    }
-
-    pub fn contains(&self, cell: &Cell) -> bool {
-        self.0.contains(cell)
-    }
-
-    pub fn add_cell(&mut self, cell: Cell) {
-        self.0.insert(cell);
-    }
-
-    pub fn add_cells(&mut self, cells: Cells) {
-        cells.iter().for_each(|c| self.add_cell(*c));
-    }
-
-    pub fn remove_cells(&mut self, cells: Cells) {
-        cells.iter().for_each(|c| {
-            let _ = self.0.remove(c);
-        });
-    }
-
-    pub fn iter(&self) -> hash_set::Iter<'_, Cell> {
-        self.0.iter()
-    }
-
-    pub fn is_empty(&self) -> bool {
-        self.0.is_empty()
     }
 
     pub fn rotate(self, n: isize) -> Self {
@@ -85,17 +61,34 @@ impl Cells {
         let row_reversed = rev_index(row, &row_reversed);
         let column_reversed = rev_index(column, &column_reversed);
 
-        let mut result = Cells::default();
-        self.0.iter().for_each(|c| {
-            let new_cell = match cycle {
-                0 => *c,
-                1 => Cell::new(c.column(), row_reversed(c.row())),
-                2 => Cell::new(row_reversed(c.row()), column_reversed(c.column())),
-                _ => Cell::new(column_reversed(c.column()), c.row()), // 3, unreachable -1 & 4 conditions.
-            };
-            result.add_cell(new_cell);
-        });
-        result
+        let new_cells = self
+            .0
+            .par_iter()
+            .map(|c| {
+                match cycle {
+                    0 => *c,
+                    1 => Cell::new(c.column(), row_reversed(c.row())),
+                    2 => Cell::new(row_reversed(c.row()), column_reversed(c.column())),
+                    _ => Cell::new(column_reversed(c.column()), c.row()), // 3, unreachable -1 & 4 conditions.
+                }
+            })
+            .collect::<Vec<_>>();
+
+        Cells::from_iter(new_cells)
+    }
+}
+
+impl Deref for Cells {
+    type Target = HashableHashSet<Cell>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for Cells {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
     }
 }
 

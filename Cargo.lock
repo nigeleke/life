@@ -459,6 +459,7 @@ dependencies = [
  "hashable",
  "pretty_assertions",
  "rand",
+ "rayon",
  "thiserror",
 ]
 

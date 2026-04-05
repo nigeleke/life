@@ -10,6 +10,7 @@ pub enum LifeError {
 }
 
 #[derive(Debug)]
+#[repr(transparent)]
 pub struct Life(Generations);
 
 impl Life {
@@ -17,7 +18,7 @@ impl Life {
         let generations = &mut self.0;
         print!("{}{}", ansi::CLEAR_SCREEN, ansi::HOME);
         println!("{}", generations.current());
-        for generation in generations.by_ref() {
+        while let Some(generation) = generations.next_generation() {
             print!("{}", ansi::HOME);
             println!("{}", generation);
             let duration = std::time::Duration::from_millis(200);

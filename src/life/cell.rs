@@ -19,14 +19,17 @@ impl Cell {
         self.column
     }
 
-    pub fn neighbours(&self) -> Vec<Cell> {
-        (-1..=1)
-            .flat_map(|delta_row| {
-                (-1..=1)
-                    .filter(move |delta_column| delta_row != 0 || *delta_column != 0)
-                    .map(move |delta_column| *self + Position::new(delta_row, delta_column))
-            })
-            .collect::<Vec<_>>()
+    pub fn neighbours(&self) -> impl Iterator<Item = Cell> + '_ {
+        #[rustfmt::skip]
+        const DELTAS: [(isize, isize); 8] = [
+            (-1, -1), (-1, 0), (-1, 1),
+            ( 0, -1),          ( 0, 1),
+            ( 1, -1), ( 1, 0), ( 1, 1),
+        ];
+
+        DELTAS
+            .into_iter()
+            .map(move |(dr, dc)| *self + Position::new(dr, dc))
     }
 }
 

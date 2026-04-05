@@ -19,23 +19,10 @@ impl Generations {
     pub fn current(&self) -> &World {
         &self.current
     }
-}
 
-impl std::iter::Iterator for Generations {
-    type Item = World;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let mut world = self.current.clone();
-        world.next_generation();
-
-        let cells = world.live_cells().clone();
-        let inserted = self.previous.insert(cells);
-        let world = inserted.then_some(world);
-
-        if let Some(world) = world.as_ref() {
-            self.current = world.clone();
-        }
-
-        world
+    pub fn next_generation(&mut self) -> Option<&World> {
+        self.current.next_generation();
+        let is_unique = self.previous.insert(self.current.live_cells().clone());
+        is_unique.then_some(&self.current)
     }
 }
