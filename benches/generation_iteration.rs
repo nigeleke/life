@@ -27,7 +27,7 @@ fn bench_generations_iterator(c: &mut Criterion) {
             let mut gens = Generations::new(initial_world.clone());
             let mut count = 0u32;
 
-            while let Some(_) = gens.next_generation() {
+            while gens.next_generation().is_some() {
                 count += 1;
                 if count >= 100 {
                     break;
