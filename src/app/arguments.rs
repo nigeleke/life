@@ -76,7 +76,7 @@ impl Arguments {
 
 #[cfg(test)]
 mod test {
-    use clap::{error::ErrorKind, *};
+    use clap::error::ErrorKind;
     use pretty_assertions::assert_eq;
 
     use super::*;
